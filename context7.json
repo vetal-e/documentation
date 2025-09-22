@@ -1,0 +1,8 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "Oro Documentation",
+  "description": "Oro products documentation.",
+  "branch": "master",
+  "folders": ["backend/entities"],
+  "excludeFiles": []
+}
