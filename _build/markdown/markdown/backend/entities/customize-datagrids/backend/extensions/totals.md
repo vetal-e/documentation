@@ -1,0 +1,66 @@
+<a id="customize-datagrid-extensions-totals"></a>
+
+# Totals Extension
+
+This extension provides the aggregation of the total, which is displayed in the grid’s footer (tfoot).
+
+## Settings
+
+The totals setting should be placed under the totals tree node.
+
+```yaml
+datagrids:
+  demo:
+    source:
+       [...]
+    totals:
+      page_total:
+          extends: grand_total
+          per_page: true
+          hide_if_one_page: true
+          disabled: false
+          columns:
+            name:
+                label: 'page total'
+      grand_total:
+          columns:
+            name:
+                label: 'grand total'
+            contactName:
+                expr: 'COUNT(o.name)'
+                formatter: integer
+            closeDate:
+                label: 'Oldest'
+                expr: 'MIN(o.closeDate)'
+                formatter: date
+            probability:
+                label: 'Summary'
+                expr: 'SUM(o.probability)'
+                formatter: percent
+            budget:
+                label: 'Budget Amount'
+                expr: 'SUM(o.budget)'
+                formatter: currency
+                divisor: 100
+            statusLabel:
+                label: oro.sales.opportunity.status.label
+```
+
+#### NOTE
+- Column name should be equal to the name of the corresponding column.
+- **label** can be a text or a translation placeholder (**not required**)
+- **expr** data aggregation SQL expression (**not required**)
+- **formatter** backend formatter that processes the column value
+- available values: date, datetime, decimal, integer, percent
+- if you add “label” and “query” config but the query aggregation returns nothing -> the total’s cell will be empty
+- generally, they are shown as “<label>: <query result>”
+- the total config can be taken from another total row with the **extends** parameter.
+- **per_page** parameter switches data calculation only for the current page data
+- if **hide_if_one_page** is true, then this total row is hidden on full data set.
+- if **disabled** is true, this total row is removed.
+- **divisor** if you need to divide the value by a number before rendering it to the user (**not required**)
+
+**Related Articles**
+
+* [Datagrids](../../../data-grids/index.md#data-grids)
+* [Datagrid Configuration Reference](../../../../configuration/yaml/datagrids.md#reference-format-datagrids)

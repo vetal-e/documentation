@@ -1,0 +1,426 @@
+<a id="bundle-docs-platform-action-bundle-configuration-reference"></a>
+
+# Configuration Reference
+
+Configuration of Operation declares all aspects related to a specific operation:
+
+* basic properties of operation like name, label, order, acl resource, etc.
+* entities or routes, or datagrids that are related to the operation
+* conditions and actions
+* attributes involved in the operation
+* frontend configuration
+* operation dialog parameters
+
+Structure of configuration is declared in the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/ActionBundle/Configuration/Configuration.php" target="_blank">configuration.php</a> file.
+
+## Configuration File
+
+Configuration must be placed in the Resources/config/oro/actions.yml file. For example, Acme/Bundle/DemoBundle/Resources/config/oro/actions.yml.
+
+**Example - actions.yml**
+
+```yaml
+operations: # root elements
+    acme_demo_operation_base: # name of operation
+        label: 'Base acme demo operation'               # this value will be shown in UI for operation button
+        entities: # on view/edit pages of this entities operation button will be shown
+            - Acme\Bundle\DemoBundle\Entity\Priority    # entity class name
+```
+
+## Configuration Loading
+
+All operations configurations are loaded automatically on Symfony container building process. Configuration are collected from all
+bundles, are validated and merged. The merged configuration is stored in the app cache.
+
+Execute a command to validate configuration manually:
+
+```php
+php bin/console oro:action:configuration:validate
+```
+
+## Configuration Merging
+
+All configurations are merged in the boot bundles order. There are two steps of the merging process: overriding and extending.
+
+**Overriding**
+
+At this step, the application collects all configurations of all operations with the same name and merge them to one configuration.
+
+The merging process uses simple rules:
+
+* If the node value is scalar, the value is replaced
+* If the node value is array, this array is complemented by values from the second configuration
+
+After the first step, the application knows about all operations and has only one configuration for each operation.
+
+**Extending**
+
+An this step, the application collects configurations for all operations which contain extends. Then, the main operation configuration, specified in extends, is copied and merged with the configuration of the original operation. Merging is processed in the same way using the overriding step (rules).
+
+## Configuration Replacing
+
+In the merging process, we can replace any node on any level of our configuration. If the replace node exists, and it contains some nodes on the same level, the value of these nodes are replaced by the values from the last configuration from a queue.
+
+## Defining an Operation
+
+The root element of the configuration is *operations*. The operations are defined under this element.
+
+A single operation configuration has the following properties:
+
+* **name** - *string* - An operation should have a unique name in the scope of all application.
+* **extends** - *string* - An operation name that is used by configuration as a basis for the current operation.
+* **label** - *string* - This value is shown in the UI.
+* **substitute_operation** - *string* - The name of the operation that can be replaced (e.g., substituted) by the current one.
+* **enabled** - *boolean or variable* - A flag that defines whether this operation is enabled. Disabled operations passed with variable value are used in applications. Boolean type is used when there is no preactions that determine operation status. If your operation status depends on preactions then use variable as value for the status. Take into account that disabled operations by variable value are slower, because there is need to execute all preactions before set and check the status value.
+* **page_reload** - *boolean* - By default, it is set to *true*. A flag that defines whether this operation should reload the page after execution. It applies when redirect url or datagrid is not specified inside the *actions* block.
+* **entities** - *array* - An array of entity class names. Operation button is shown on the view/edit pages of the entities.
+* **for_all_entities** - *boolean* - The boolean flag that determines whether the current operation matches the selected entities if any.
+* **exclude_entities** - *array* - The list of entities that should be excluded from matching against current operation.
+* **routes** - *array* - The operation button displayed on the pages where the route is mentioned.
+* **groups** - *array* - Defines an array of group names to use with the current operation and behaves the same way as operation tagging. It is the easiest way to select the required group of operations for custom approaches.
+* **datagrids** - *array* - The operation icon displayed as a datagrid-action in the listed datagrids.
+* **for_all_datagrids** - *boolean* - The flag that determines whether the current operation matches all the selected datagrids, if any.
+* **exclude_datagrids** - *array* - Defines a list of datagrid names which should be excluded from matching against the current operation.
+* **order** - *integer* - The parameter that specifies the display order of operation buttons.
+* **acl_resource** - *string* - The operation button is shown only if a user has the expected permissions.
+* **frontend_options** - Contains configuration for Frontend Options.
+* **preactions** - Contains configuration for actions which are performed before preconditions.
+* **preconditions** - Contains configuration for Preconditions.
+* **attributes** - Contains configuration for Attributes.
+* **datagrid_options** - Contains configuration for Datagrid Options.
+* **form_options** - Contains configuration for Transitions.
+* **form_init** - Contains configuration for Form Init Actions.
+* **conditions** - Contains configuration for Conditions.
+* **actions** - Contains configuration for Actions.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        extends: acme_demo_operation_base               # (optional) parent operation if needed
+        label: 'Acme demo operation'                    # this value will be shown in UI for operation button
+        substitute_operation: some_operation            # configuration of 'some_operation' will be replaced by configuration of this operation
+        enabled: $variable                              # operation status will be determined later, means used in application, but button is disabled on front-end if status will be false
+        entities: # on view/edit pages of this entities operation button will be shown
+            - Acme\Bundle\DemoBundle\Entity\Question    # entity class name
+        routes: # on pages with these routes operation button will be shown
+            - acme_demo_priority_view                   # route name
+        datagrids: # in listed datagrids operation icon will be shown
+            - acme-demo-question-grid                   # datagrid name
+        order: 10                                       # display order of operation button
+        acl_resource: acme_demo_question_view           # ACL resource name that will be checked on preconditions step
+        button_options:                                 # (optional) display options for operation button
+            icon: fa-check                              # (optional) class of button icon
+            class: btn                                  # (optional) class of button
+            group: acme.demo.operations.demogroup.label # (optional) group operation to drop-down on the label
+            template: '@OroAction/Operation/button.html.twig'   # (optional) custom button template
+            data:                                               # custom data attributes which will be added to button
+                param: value
+                customTitle: $.customTitle
+            page_component_module: acmedemo/js/app/components/demo-component
+            page_component_options:                                       # (optional) js-component module options
+                component_name: '[name$="[component]"]'
+                component_additional: '[name$="[additional]"]'
+        frontend_options:                                                 # (optional) display options for operation button
+            confirmation: acme.demo.operations.operation_perform_confirm
+            template: '@OroAction/Operation/form.html.twig'               # (optional) custom template, can be used both for page or dialog
+            title: acme.demo.operations.dialog.title                      # (optional) custom title
+            title_parameters:
+                '%%some_param%%': $.paramValue
+            options:                                                      # (optional) modal dialog options
+                allowMaximize: true
+                allowMinimize: true
+                dblclick: maximize
+                maximizedHeightDecreaseBy: minimize-bar
+                width: 500
+            show_dialog: true
+        attributes:                                                # (optional) list of all existing attributes
+            question:                                              # attribute name
+                label: 'Question'                                  # attribute label
+                type: entity                                       # attribute type
+                options:                                           # attribute options
+                    class: Acme\Bundle\DemoBundle\Entity\Question  # (optional) entity class name, set if type is entity
+            company_name:
+                label: 'Company name'
+                type: string
+            group_name:
+                property_path: user.group.name
+        datagrid_options:
+#            mass_action_provider:                             # (optional) service name, marked with "oro_action.datagrid.mass_action_provider" tag
+#                acme.action.datagrid.mass_action_provider     # and must implement Oro\Bundle\ActionBundle\Datagrid\Provider\MassActionProviderInterface
+            mass_action:                                       # (optional) configuration of datagrid mass action
+                type: window
+                label: acme.demo.mass_action.label
+                icon: plus
+                route: acme_demo_bundle_massaction
+                frontend_options:
+                    title: acme.demo.mass_action.action.label
+                    dialogOptions:
+                        modal: true
+            data:
+                type: import
+                importProcessor: 'acme_import_processor'
+                importJob: 'acme_import_from_csv'
+        form_options:                                                               # (optional) parameters which will be passed to form dialog
+            attribute_fields:                                                       # list of attribute fields which will be shown in dialog
+                question:                                                           # attribute name (must be configured in `attributes` block of action config)
+                    form_type: Symfony\Component\Form\Extension\Core\Type\TextType  # needed type of current field
+            attribute_default_values:                                     # (optional) define default values for attributes
+                question: $question                                       # use attribute name and property path or simple string for attribute value
+        preconditions:                                                    # (optional) pre-conditions for display Action button
+            '@equal': [ $name, 'John Dow' ]                               # condition definition
+```
+
+## Matching and Filter Mechanism
+
+There are config fields responsible for matching and filtering operations that correspond to actual context call (e.g., request, place in template, etc.)
+
+### Filtering
+
+Filters are currently included in single property groups.
+
+### Matching
+
+Matching properties are:
+
+- for_all_entities and for_all_datagrids as wildcards boolean indicators
+- the entities, routes, datagrids elements comparisons
+- exclude_entities and exclude_datagrids as exclusion matchers useful for the for_all_entities and for_all_datagrids wildcards set to true.
+
+**Filters** discard all non-matched operations applied first before matchers. Then, **matchers** collect all operations, among filtered, where comparisons meet though the OR statement.
+
+For example, if datagrid OR route are present in operation configuration, and they meet in a context, then the operation is added to the result list.
+
+<a id="bundle-docs-platform-action-bundle-operation-substitution"></a>
+
+## Substitution of Operation
+
+The substitution happens when the substitute_operation parameter is defined, and it corresponds to another operation name that should be displayed (e.g., matched by context). In other words, the operation that defines substitution is located in the UI instead of the operation that is defined in parameter.
+
+> The same matching and filter mechanisms are applied for replacement operation (e.g., the operation that has the substitute_operation parameter) as for the regular one with one important difference: **if no matching or filtering criteria are specified than that operation will be matched automatically - always**. Operations that did not make any replacement (in context) are removed from the final result list.
+
+## Button Options Configuration
+
+Button Options enable to change an operation button style, override a button template and add some data attributes.
+
+Button Options configuration has the following options:
+
+* **icon** - *string* - CSS class the operation button icon.
+* **class** - *string* - CSS class applied to the operation button.
+* **group** - *string* - Name of operation button menu. The operation button is part of a dropdown buttons menu with a label (specified group). All operations within the same group are shown in a dropdown button html menu.
+* **template** - *string* - This option provides the possibility to override the button template. Should be extended from @OroAction/Operation/button.html.twig.
+* **data** - *array* - This option provides possibility to add data-attributes to the button tag or dynamic attributes for datagrid action.
+* **page_component_module** - *string* - Name of js-component module for the operation-button (attribute *data-page-component-module*).
+* **page_component_options** - *array* - List of options of js-component module for the operation-button (attribute *data-page-component-options*).
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        button_options:                                 # (optional) display options for operation button
+            icon: fa-check                              # (optional) class of button icon
+            class: btn                                  # (optional) class of button
+            group: acme.demo.operations.demogroup.label # (optional) group operation to drop-down on the label
+            template: '@OroAction/Operation/button.html.twig'   # (optional) custom button template
+            data:                                               # custom data attributes which will be added to button
+                param: value
+                customTitle: $.customTitle
+            page_component_module: acmedemo/js/app/components/demo-component
+            page_component_options:                                       # (optional) js-component module options
+                component_name: '[name$="[component]"]'
+                component_additional: '[name$="[additional]"]'
+```
+
+## Frontend Options Configuration
+
+Frontend Options enable you to override an operation dialog, page template, or title as well as to set widget options.
+
+Frontend Options configuration has the following options:
+
+* **template** - *string* - You can set custom operation dialog template. Should be extended from @OroAction/Operation/form.html.twig.
+* **title** - *string* - Custom title of operation dialog window.
+* **title_parameters** - *array* - Parameter for replacing placeholders from the title. The operation data can be used.
+* **options** - *array* - Parameters related to widget component with the following options: *allowMaximize*, *allowMinimize*, *dblclick*, *maximizedHeightDecreaseBy*, *width*, etc.
+* **confirmation** - *string* - You can show a confirmation message before starting the operation execution. Translate constant should be available for JS and placed in jsmessages.\*.yml.
+* **show_dialog** - *boolean* - By default, this value is true. It means that during the operation execution a modal dialog with a form is displayed if the form parameters are set. Otherwise a separate page (like an entity update page) with a form is displayed instead.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        frontend_options:                                                 # (optional) display options for operation button
+            confirmation: acme.demo.operations.operation_perform_confirm
+            template: '@OroAction/Operation/form.html.twig'               # (optional) custom template, can be used both for page or dialog
+            title: acme.demo.operations.dialog.title                      # (optional) custom title
+            title_parameters:
+                '%%some_param%%': $.paramValue
+            options:                                                      # (optional) modal dialog options
+                allowMaximize: true
+                allowMinimize: true
+                dblclick: maximize
+                maximizedHeightDecreaseBy: minimize-bar
+                width: 500
+            show_dialog: true
+```
+
+## Attributes Configuration
+
+The operation defines configuration of attributes. The operation can manipulate its own data that is mapped by Attributes. Each attribute should have a type and may have options.
+
+Single attribute can be described with the following configuration:
+
+* **unique name** - Attributes should have a unique name in scope of Operation that they belong to. Form configuration references
+  : attributes by this value.
+* **type** - *string* - Type of attribute. The following types are supported:
+  * **boolean**
+  * **bool** - *alias for boolean*
+  * **integer**
+  * **int** - *alias for integer*
+  * **float**
+  * **string**
+  * **array** - Elements of array should be scalars or objects that support serialization/deserialization.
+  * **object** - Object should support serialization/deserialization, the “class” option is required for this type.
+  * **entity** - Doctrine entity, the “class” option is required, and it must be a Doctrine manageable class.
+* **label** - *string* - Label can be shown in the UI.
+* **property_path** - *string* - Used to work with attribute value by reference and specifies path to data storage. If property path is specified then all other attribute properties except name are optional. They can be automatically determined based on the last element (field) of the property path.
+* **options** - Options of an attribute. Currently the following options are supported:
+  * **class** - *string* - Fully qualified class name. Enabled only when typing either entity or object.
+
+#### NOTE
+Attribute configuration does not contain any information about how to render the attribute on step forms, it is the responsibility of “Form Options”.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        attributes:                                                # (optional) list of all existing attributes
+            question:                                              # attribute name
+                label: 'Question'                                  # attribute label
+                type: entity                                       # attribute type
+                options:                                           # attribute options
+                    class: Acme\Bundle\DemoBundle\Entity\Question  # (optional) entity class name, set if type is entity
+            company_name:
+                label: 'Company name'
+                type: string
+            group_name:
+                property_path: user.group.name
+```
+
+## Datagrid Options Configuration
+
+Datagrid options enable to define options of datagrid mass operation. They provide two ways to set mass operation configuration: using service which returns array of mas operation configuration or set the inline configuration of mass operation.
+
+Single datagrid options can be described with the following configuration:
+
+* **mass_action_provider** - *string* - Service name. This service must be marked with the oro_action.datagrid.mass_action_provider tag. Also it must implement Oro\\Bundle\\ActionBundle\\Datagrid\\Provider\\MassActionProviderInterface. The “getActions” method of this provider must return array of mass action configurations.
+* **mass_action** - *array* - Mass action configuration. See the datagrid documentation.
+* **data** - *array* - This option provides possibility to add static attributes to datagrid action. See the datagrid documentation.
+
+#### NOTE
+Keep in mind that only one parameter, either “mass_action_provider” or “mass_action”, can be used.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        datagrid_options:
+#            mass_action_provider:                             # (optional) service name, marked with "oro_action.datagrid.mass_action_provider" tag
+#                acme.action.datagrid.mass_action_provider     # and must implement Oro\Bundle\ActionBundle\Datagrid\Provider\MassActionProviderInterface
+            mass_action:                                       # (optional) configuration of datagrid mass action
+                type: window
+                label: acme.demo.mass_action.label
+                icon: plus
+                route: acme_demo_bundle_massaction
+                frontend_options:
+                    title: acme.demo.mass_action.action.label
+                    dialogOptions:
+                        modal: true
+            data:
+                type: import
+                importProcessor: 'acme_import_processor'
+                importJob: 'acme_import_from_csv'
+```
+
+## Form Options Configuration
+
+These options are passed to form type of operation. They contain options for form types of attributes that are displayed once a user clicks the operation button.
+
+Single form configuration is described with the following configuration:
+
+* **attribute_fields** - *array* - List of attributes with their options. All attributes specified in this configuration must be included in the attribute configuration.
+* **attribute_default_values** - *array* - List of default values for attributes. These values are shown in the operation form once it is loaded.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        form_options:                                                               # (optional) parameters which will be passed to form dialog
+            attribute_fields:                                                       # list of attribute fields which will be shown in dialog
+                question:                                                           # attribute name (must be configured in `attributes` block of action config)
+                    form_type: Symfony\Component\Form\Extension\Core\Type\TextType  # needed type of current field
+            attribute_default_values:                                     # (optional) define default values for attributes
+                question: $question                                       # use attribute name and property path or simple string for attribute value
+```
+
+## Preconditions and Conditions Configuration
+
+* **preconditions** - Configuration of preconditions that must be satisfied to enable the operation button displaying.
+* **conditions** - Configuration of Conditions that must be satisfied to enable the operation.
+
+It declares a tree structure of conditions that are applied on the Action Data to check if the Operation could be performed. Single condition configuration contains alias, a unique name of a condition, and options.
+
+Optionally, each condition can have a constraint message. All messages of not passed conditions are shown to a user if the operation fails to be performed.
+
+There are two types of conditions: preconditions and actually operation conditions. Preconditions are used to check whether the operation is enabled to be displayed, and actual conditions are used to check whether the operation can be done.
+
+Alias of condition starts from the @ symbol and must refer to the registered condition. For example, @or refers to the logical OR condition.
+
+Options can refer to values of the main entity in Action Data using the $ prefix. For example, $some_value refers to the value of “callsome_value” attribute of the entity that is processed in condition.
+
+Also, it is possible to refer to any property of Action Data using the $. prefix. For example, the $.created string is used to refer to the date attribute.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        preconditions:                                                    # (optional) pre-conditions for display Action button
+            '@equal': [ $name, 'John Dow' ]                               # condition definition
+        conditions:                                                       # (optional) conditions for execution Action button
+            '@not_empty': [ $group ]                                      # condition definition
+```
+
+## Preactions, Form Init Actions and Actions Configuration
+
+* **preactions** - Configuration of preactions that can be performed before preconditions, conditions, form init actions, and actions. It can be used to prepare some data in Action Data that will be used in the preconditions validation.
+* **form_init** - Configuration of Form Init Actions that can be performed in Action Data before conditions and actions. One of the possible init operations usage scenario is to fill attributes with default values which will be used in operation form if any.
+* **actions** - Configuration of actions that must be performed after all previous steps are completed. This is the main operation step that must contain operation logic. It will be performed only after conditions are qualified.
+
+Similarly to conditions, the alias of action starts from the @ symbol and must refer to registered actions. For example, the @assign_value refers to the action which set specified value to attribute in Action Data.
+
+### Example
+
+```yaml
+operations: # root elements
+    acme_demo_operation:                                # operation name
+        preactions:                                                       # (optional) any needed pre actions which will execute before pre conditions
+            -   '@assign_value': [ $name, 'User Name' ]                   # action alias
+            -   '@assign_value': [ $variable, true ]                      # preaction that determines value for enabled
+        form_init:                                                        # (optional) any needed actions which will execute before showing form dialog
+            -   '@assign_value': [ $group, 'Group Name' ]                 # action alias
+        actions:                                                          # (optional) any needed actions which will execute after click on th button
+            -   '@create_entity':                                         # action definition
+                    class: Acme\Bundle\DemoBundle\Entity\User
+                    attribute: $user
+                    data:
+                        name: $name
+                        group: $group
+```
+
+<!-- Frontend -->

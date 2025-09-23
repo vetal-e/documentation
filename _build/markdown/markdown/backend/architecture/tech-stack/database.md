@@ -1,0 +1,146 @@
+<a id="op-structure-database"></a>
+
+# Database
+
+A Database System component is responsible for interaction with RDBMS. It enables the following capabilities:
+
+* Store data in a persistent storage
+* Provide query language to retrieve required data based on the given conditions
+* Define database structure and provide a set of tools for migrations
+
+## Terminology
+
+* RDBMS (Relational Database Management System) - is a database management system (DBMS) that is based on the relational model
+* ORM (object-relational mapper) - is a technique that lets you query and manipulate data from a database using an object-oriented paradigm
+* Doctrine ORM - PHP implementation of ORM
+* Doctrine DBAL - database abstraction layer used for database schema introspection, schema management, and PDO abstraction
+* DQL - proprietary object-oriented SQL dialect called Doctrine Query Language implemented in Doctrine ORM
+
+## Supported Databases
+
+OroPlatform Community Edition (CE) is an open-source application designed for small organizations. OroPlatform Enterprise Edition (EE) is designed with scalability and performance in mind.
+
+With OroPlatform CE or EE, you can use PostgreSQL 15.1.
+
+## Configuration
+
+### Connection
+
+Database connection is configured using the following environment variable:
+
+```text
+ORO_DB_DSN=postgresql://postgres@127.0.0.1/commerce_crm_ee?serverVersion=13
+```
+
+This parameter will be mapped to the **url** parameter of the Doctrine configuration.
+See <a href="https://symfony.com/doc/current/reference/configuration/doctrine.html" target="_blank">Doctrine Configuration Reference</a> documentation for more information on this parameter.
+Also <a href="https://www.postgresql.org/docs/9.4/libpq-connect.html" target="_blank">PostgreSQL Connection URI Reference</a> documentation for more information about format.
+
+### DBAL and ORM
+
+You can change the configuration in config.yml. Every registered Oro bundle has a Resources/config/oro/app.yml file which is merged with the global *config.yml*. This means that you can extend the system configuration from a particular bundle for all applications without changing the global *config.yml* file.
+
+Doctrine provides a limited set of DQL functions that a developer may use. To extend this list, Oro has its own  <a href="https://github.com/oroinc/doctrine-extensions" target="_blank">extensions library</a>. New DQL functions are added to the Doctrine configuration with either the *app.yml* or *config.yml* file placed in the EntityBundle of the Platform project. New functions may be implemented in any bundle and added to its app.yml in the following format:
+
+```text
+doctrine:
+    orm:
+        dql:
+            string_functions:
+                group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
+```
+
+You can use the same file to add new data types, for example:
+
+```text
+doctrine:
+    dbal:
+        types:
+            duration: Oro\Bundle\EntityBundle\DoctrineExtensions\DBAL\Types\DurationType
+```
+
+Enabling metadata cache is strongly recommended for the development and production environments to improve performance. Metadata caching in OroPlatform is done with the doctrine.metadata.cache service.
+
+```text
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                metadata_cache_driver:
+                    type: service
+                    id:   doctrine.metadata.cache
+```
+
+Read more on <a href="https://symfony.com/doc/6.4/reference/configuration/doctrine.html" target="_blank">DoctrineBundle Configuration</a> for more information.
+
+## Scalability and Performance Recommendations
+
+Use database server configuration optimized for the hardware. Note that by default, databases are installed with a configuration applicable for slow hardware with a limited amount of memory, and some options should be changed after installation to get optimal performance.
+
+To choose optimal PostgreSQL configuration parameters, you can use the <a href="http://pgtune.leopard.in.ua/" target="_blank">PGTune</a> configuration calculator.
+
+The PGTune calculate configuration for PostgreSQL is based on the maximum performance for a given hardware configuration. However, it is not a silver bullet for the optimization settings of PostgreSQL. Many settings depend not only on the hardware configuration but also on the size of the database, the number of clients, and the complexity of queries. To optimally configure the database, consider all of these parameters.
+
+Sometimes OS read/writes can slow down the database server’s performance, primarily if located on the same hard drive. Instead, we recommend using a separate hard drive (preferably an SSD) for the database service.
+
+### PostgreSQL
+
+You can use postgresqltuner.pl\`, a script,  to help you analyze a PostgreSQL database.
+
+```text
+# wget https://postgresqltuner.pl postgresqltuner.pl
+# ./postgresqltuner.pl
+```
+
+#### Enable avtovacuum
+
+PostgreSQL has an optional but highly recommended feature called autovacuum, which you can use to automate the execution of the VACUUM and ANALYZE commands. When enabled, autovacuum checks for tables that have had a large number of inserted, updated, or deleted tuples. These checks use the statistics collection facility, so autovacuum cannot be used unless track_counts is set to `true`. In the default configuration, autovacuuming is enabled, and the related configuration parameters are appropriately set. Regular vacuuming does not take much time and resources, but if it does, please investigate, as it should not be the case.
+
+##### Developers Recommendations
+
+Do not select All (SELECT \*) columns when only specific fields are required. The fewer columns you ask for, the fewer data must be loaded from the disk when processing your query and fewer data to send over the network. If only columns stored in the index are requested, data will be loaded only from the index without reading data from the table. Follow this recommendation while working with complex queries that return a known set of fields: the repository methods not designed to return entity, datagrid queries, etc.
+
+Add indexes only under the following circumstances:
+
+* When you know how the table will be queried
+* When you know that the index field will be part of the where clause
+* When a field is highly selectable.
+
+When all the conditions apply, the field makes a good candidate for pre-emptive tuning. Otherwise, do not add indexes for all fields because this will slow down insert/update operations and will require more disk space.
+
+When metadata caching is turned on, any changes to the entity will not be seen by doctrine until cache refresh. Remember to clear the metadata cache any time when metadata is changed.
+
+```bash
+php bin/console doctrine:cache:clear-metadata
+```
+
+#### Hydration
+
+Doctrine ORM, like most ORMs, performs a process called Hydration when converting database results into objects. This process usually involves reading a record from a database result and then converting the column values into an object’s properties. It may lead to performance degradation when several collections are hydrated in one query. The process of hydration becomes extremely expensive when more than 2 LEFT JOIN operations clauses are part of queries. You can find more details on this topic in the <a href="https://ocramius.github.io/blog/doctrine-orm-optimization-hydration/" target="_blank">Doctrine ORM Hydration Performance Optimization</a> article.
+Before any query optimization, first EXPLAIN it on both supported Database platforms and see how RDBMS processes the query. See <a href="https://www.postgresql.org/docs/current/using-explain.html" target="_blank">Using Explain</a> and <a href="https://dev.mysql.com/doc/refman/5.7/en/explain-output.html" target="_blank">Explain Output</a> for more information.
+
+To protect your query by ACL, call AclHelper:apply to apply ACL restrictions to a given query.
+
+## Exception and Unavailability Handling
+
+When the database is unavailable, the application in production mode should show service unavailability or a maintenance page with steps to report an incident.
+To handle errors related to the deadlocks or lock wait timeouts, use Doctrine built-in transaction exceptions. All transaction exceptions where retrying makes sense have a marker interface: DoctrineDBALExceptionRetryableException
+
+## Logging aspects
+
+All logs must follow Logging Conventions. Logs should not contain sensitive data like credit card numbers, passwords, etc.
+Enable PostgreSQL Slow query Logs for logging slow queries. This can help to determine issues with the database and help to debug them.
+
+## References
+
+* <a href="https://www.postgresql.org/docs/" target="_blank">PostgreSQL Documentation</a>
+* <a href="https://github.com/oroinc/doctrine-extensions" target="_blank">Doctrine Extensions</a>
+* [Oro application system requirements](../../setup/system-requirements/index.md#system-requirements)
+* <a href="http://pgtune.leopard.in.ua/" target="_blank">PGTune - Configuration calculator for PostgreSQL</a>
+* <a href="https://www.percona.com/software/postgresql-distribution" target="_blank">Percona Distribution for PostgreSQL</a>
+* <a href="https://wiki.postgresql.org/wiki/Performance_Optimization" target="_blank">PostgreSQL Performance Optimization</a>
+* <a href="https://github.com/jfcoz/postgresqltuner" target="_blank">PostgreSQL Tuner</a>
+* <a href="https://symfony.com/doc/6.4/reference/configuration/doctrine.html" target="_blank">Symfony: DoctrineBundle Configuration</a>
+* Logging Conventions
+
+<!-- Frontend -->

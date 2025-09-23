@@ -1,0 +1,172 @@
+<a id="backend-security-bundle-example"></a>
+
+# Access Levels and Ownership (Example)
+
+The following sections provide some insight into how the ACL checks work. Suppose there are two organizations, *Main Organization* and *Second Organization*. The *Main Organization* contains the *Main Business Unit*, *Second Organization* contains *Second Business Unit*. *Child Business Unit* is a subordinate of *Second Business Unit*. Additionally, the following users have been created:
+
+| User   | Created in Organization   | Created in Business Unit   | Assigned to                                     |
+|--------|---------------------------|----------------------------|-------------------------------------------------|
+| John   | Main Organization         | Main Business Unit         | - Main Business Unit<br/>- Child Business Unit  |
+| Mary   | Main Organization         | Main Business Unit         | - Main Business Unit<br/>- Second Business Unit |
+| Mike   | Second Organization       | Child Business Unit        | - Child Business Unit                           |
+| Robert | Second Organization       | Second Business Unit       | - Main Business Unit<br/>- Second Business Unit |
+| Mark   | Second Organization       | Second Business Unit       |                                                 |
+
+## User Ownership
+
+Imagine that each user created two accounts (one in *Main Organization* and one in *Second Organization*):
+
+| Created by   | Main Organization   | Second Organization   |
+|--------------|---------------------|-----------------------|
+| John         | Account A           | Account E             |
+| Mary         | Account B           | Account F             |
+| Mike         | Account G           | Account C             |
+| Robert       | Account H           | Account D             |
+| Mark         | Account I           | Account J             |
+![image](img/backend/security/user-ownership.png)
+
+The users can now access the accounts depending on the organization context they login into as
+described below:
+
+### John
+
+| Access Level   | Main Organization                                                           | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| User           | - Account A                                                                 | - Account E                                                                 |
+| Business Unit  | - Account A<br/>- Account B<br/>- Account H                                 | - Account E<br/>- Account C                                                 |
+| Division       | - Account A<br/>- Account B<br/>- Account H                                 | - Account E<br/>- Account C                                                 |
+| Organization   | - Account A<br/>- Account B<br/>- Account H<br/>- Account G<br/>- Account I | - Account E<br/>- Account C<br/>- Account D<br/>- Account F<br/>- Account J |
+
+### Mary
+
+| Access Level   | Main Organization                                                           | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| User           | - Account B                                                                 | - Account F                                                                 |
+| Business Unit  | - Account B<br/>- Account A<br/>- Account H                                 | - Account F<br/>- Account D                                                 |
+| Division       | - Account B<br/>- Account A<br/>- Account H                                 | - Account F<br/>- Account D<br/>- Account C<br/>- Account E                 |
+| Organization   | - Account B<br/>- Account A<br/>- Account H<br/>- Account G<br/>- Account I | - Account F<br/>- Account D<br/>- Account C<br/>- Account E<br/>- Account J |
+
+### Mike
+
+The user Mike cannot log in to the *Main Organization*.
+
+| Access Level   | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|
+| User           | - Account C                                                                 |
+| Business Unit  | - Account C<br/>- Account E                                                 |
+| Division       | - Account C<br/>- Account E                                                 |
+| Organization   | - Account C<br/>- Account E<br/>- Account D<br/>- Account F<br/>- Account J |
+
+### Robert
+
+| Access Level   | Main Organization                                                           | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| User           | - Account H                                                                 | - Account D                                                                 |
+| Business Unit  | - Account H<br/>- Account A<br/>- Account B                                 | - Account D<br/>- Account F<br/>- Account E                                 |
+| Division       | - Account H<br/>- Account A<br/>- Account B                                 | - Account D<br/>- Account F<br/>- Account E<br/>- Account C                 |
+| Organization   | - Account H<br/>- Account A<br/>- Account B<br/>- Account G<br/>- Account I | - Account D<br/>- Account F<br/>- Account E<br/>- Account C<br/>- Account J |
+
+### Mark
+
+The user Mark cannot log in to the *Main Organization*.
+
+| Access Level   | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|
+| User           | - Account J                                                                 |
+| Business Unit  | - Account J                                                                 |
+| Division       | - Account J                                                                 |
+| Organization   | - Account J<br/>- Account F<br/>- Account E<br/>- Account C<br/>- Account D |
+
+## Business Unit Ownership
+
+When the ownership type is  *“Business Unit”*, access cannot be granted on the user level. The minimum access level is the Business Unit level.
+
+Imagine that the following data has been created:
+
+| Account   | Organization        | Business Unit   |
+|-----------|---------------------|-----------------|
+| Account A | Main Organization   | Business Unit A |
+| Account B | Main Organization   | Business Unit A |
+| Account C | Second Organization | Business Unit C |
+| Account D | Second Organization | Business Unit B |
+| Account E | Second Organization | Business Unit B |
+![image](img/backend/security/business-unit-ownership.png)
+
+The users can now access the accounts as described below:
+
+### John
+
+| Access Level   | Main Organization           | Second Organization                         |
+|----------------|-----------------------------|---------------------------------------------|
+| Business Unit  | - Account A<br/>- Account B | - Account C                                 |
+| Division       | - Account A<br/>- Account B | - Account C                                 |
+| Organization   | - Account A<br/>- Account B | - Account C<br/>- Account D<br/>- Account E |
+
+### Mary
+
+| Access Level   | Main Organization           | Second Organization                         |
+|----------------|-----------------------------|---------------------------------------------|
+| Business Unit  | - Account A<br/>- Account B | - Account D<br/>- Account E                 |
+| Division       | - Account A<br/>- Account B | - Account D<br/>- Account E<br/>- Account C |
+| Organization   | - Account A<br/>- Account B | - Account D<br/>- Account E<br/>- Account C |
+
+### Mike
+
+The user Mark cannot log in to the *Main Organization*.
+
+| Access Level   | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|
+| User           | - Account J                                                                 |
+| Business Unit  | - Account J                                                                 |
+| Division       | - Account J                                                                 |
+| Organization   | - Account J<br/>- Account F<br/>- Account E<br/>- Account C<br/>- Account D |
+
+### Robert
+
+| Access Level   | Main Organization           | Second Organization                         |
+|----------------|-----------------------------|---------------------------------------------|
+| Business Unit  | - Account A<br/>- Account B | - Account C                                 |
+| Division       | - Account A<br/>- Account B | - Account C                                 |
+| Organization   | - Account A<br/>- Account B | - Account C<br/>- Account D<br/>- Account E |
+
+### Mark
+
+The user Mark cannot log in to the *Main Organization*.
+
+| Access Level   | Second Organization                                                         |
+|----------------|-----------------------------------------------------------------------------|
+| User           | - Account J                                                                 |
+| Business Unit  | - Account J                                                                 |
+| Division       | - Account J                                                                 |
+| Organization   | - Account J<br/>- Account F<br/>- Account E<br/>- Account C<br/>- Account D |
+
+## Organization Ownership
+
+When the ownership type is  *“Organization”*, access cannot be granted on the user, business, or division levels. The minimum access level is the Organization level.
+
+Imagine that the following data has been created:
+
+| Account   | Organization        |
+|-----------|---------------------|
+| Account A | Main Organization   |
+| Account B | Main Organization   |
+| Account C | Second Organization |
+| Account D | Second Organization |
+| Account E | Second Organization |
+![image](img/backend/security/organization-ownership.png)
+
+The users can now access the accounts as described below:
+
+### John, Mary, Robert
+
+| Access Level   | Main Organization           | Second Organization                         |
+|----------------|-----------------------------|---------------------------------------------|
+| Organization   | - Account A<br/>- Account B | - Account C<br/>- Account D<br/>- Account E |
+
+### Mike, Mark
+
+The users cannot log in to the *Main Organization*.
+
+| Access Level   | Second Organization                         |
+|----------------|---------------------------------------------|
+| Organization   | - Account C<br/>- Account D<br/>- Account E |
