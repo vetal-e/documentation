@@ -3,6 +3,6 @@
   "projectTitle": "Oro Documentation",
   "description": "Oro products documentation.",
   "branch": "master",
-  "folders": ["backend/entities"],
+  "folders": ["_build/markdown/markdown/backend/entities"],
   "excludeFiles": []
 }
