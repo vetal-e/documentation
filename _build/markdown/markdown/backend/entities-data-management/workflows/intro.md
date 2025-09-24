@@ -30,6 +30,8 @@ All **OTHER** entities in context of this documentation are called *not related 
 
 All Workflow entities are described in the configuration. Below is an example of Workflow configuration that performs some action with User entity.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/workflows.yml
 ```yaml
 workflows:
     acme_demo_introduction_flow:                  # name of the workflow

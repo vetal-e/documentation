@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-extend-commerce"></a>
 
 # Extending Oro Application

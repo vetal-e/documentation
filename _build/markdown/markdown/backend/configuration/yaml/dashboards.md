@@ -8,6 +8,8 @@
 The `dashboards.yml` file is used to configure dashboards and widgets that are rendered on a
 dashboard:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/dashboards.yml
 ```yaml
 dashboards:
     widgets:

@@ -96,6 +96,8 @@ Similarly, add a Symfony-compatible bundle to your Oro application via composer 
 
 To enable it in the Oro application, register the bundle in the bundles.yml file in your custom bundle:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/bundles.yml
 ```yaml
 bundles:
   -  { name: FOS\RestBundle\FOSRestBundle, priority: 100 }

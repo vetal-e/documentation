@@ -10,6 +10,8 @@ To check if the ACL system is enabled in the current application, use the **isAc
 
 Setting VIEW and EDIT class-based permissions to the MyBundle:MyEntity class for the Manager Role:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Helper/AcmeAclManagerHelper.php
 ```php
     public function setAclManager(AclManager $manager): void
     {

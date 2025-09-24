@@ -1,3 +1,4 @@
+#### NOTE
 <a id="web-services-api"></a>
 
 # Web Services API Guide
@@ -45,4 +46,8 @@ Find more information about Web API in the following topics:
 
 The documentation for the server-side developers can be found in [API Developer Guide](../backend/api/index.md#web-api).
 
+#### NOTE
+Business Tip
+
+Looking for the <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">open source b2b ecommerce platform</a> that can meet your business needs? Make sure to check our comprehensive platform comparison page.
 <!-- Frontend -->

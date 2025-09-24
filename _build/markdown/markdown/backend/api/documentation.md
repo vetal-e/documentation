@@ -21,6 +21,8 @@ api:
 
 If the documentation cannot be found in either the configuration file or the Markdown documentation file, OroPlatform tries to use system-wide descriptions of entities and fields. These descriptions are usually provided in translation files. It is the best way to document fields because the descriptions can be used in other places, not only in the API. Here is an example of a translation file that contains descriptions for entities and fields:
 
+#### NOTE
+Acme/Bundle/DemoBundle/Resources/translations/messages.en.yml
 ```yaml
  oro:
      sales:

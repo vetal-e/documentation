@@ -10,6 +10,8 @@ Parameters are accessible in actions as the root node of contextual data (e.g., 
 
 ## Action Group Configuration
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/actions.yml
 ```yaml
 action_groups: # root node for action groups
     demo_flash_greetings_to: # name of action group

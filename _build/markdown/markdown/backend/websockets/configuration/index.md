@@ -138,6 +138,8 @@ recommended to configure a supervisor to run the WebSocket server and ensure its
 
 For example, you can install <a href="http://supervisord.org/" target="_blank">Supervisord</a> and configure it to run the WebSocket server with following configuration instructions:
 
+#### NOTE
+Supervisord configuration file, e.g. /etc/supervisord.conf
 ```none
  [program:oro_web_socket]
  command=php ./bin/console gos:websocket:server --env=prod
@@ -169,4 +171,8 @@ Please note that logging levels are different in **dev** and **prod** modes by d
 
 The default output of log records is stdout.
 
+#### NOTE
+Business Tip
+
+Are you unsure whether your company needs <a href="https://oroinc.com/b2b-ecommerce/what-is-b2b-ecommerce/" target="_blank">B2B eCommerce</a>? Our guide can help with the decision-making.
 <!-- Frontend -->

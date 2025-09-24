@@ -8,6 +8,8 @@ To make the entity extended, implement the ExtendEntityInterface using the Exten
 
 Here is an example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Sms.php
 ```php
 use Oro\Bundle\ActivityBundle\Model\ActivityInterface;
 use Oro\Bundle\ActivityBundle\Model\ExtendActivity;

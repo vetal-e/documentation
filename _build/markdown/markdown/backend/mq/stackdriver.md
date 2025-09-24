@@ -16,6 +16,8 @@ COMPOSER=dev.json composer require "google/cloud":"~0.70"
 
 Create **StackdriverHandler** that uses GCloud SDK:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Log/Handler/StackdriverHandler.php
 ```php
  namespace Acme\Bundle\DemoBundle\Log\Handler;
 

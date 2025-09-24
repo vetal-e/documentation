@@ -144,6 +144,8 @@ By default, all configured [actions]() will be displayed for all entries of the 
 need to hide or show some options depending on the data of the entry, you can create a service that
 decides whether or not an action is visible for an entry:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
  datagrids:
      grid-name:
@@ -567,6 +569,11 @@ type: `map`
 By default, all data will be shown in the grid. You can use the `default` option to define
 default filters for each column. The column names are mapped to another map that contains the
 configuration for the default value.
+
+#### NOTE
+When filtering datetime columns, you can use some special placeholders that are defined in the
+Oro\\Bundle\\FilterBundle\\Provider\\DateModifierInterface (the constants prefixed
+with VAR_) to work with dynamic default values.
 
 ## options
 

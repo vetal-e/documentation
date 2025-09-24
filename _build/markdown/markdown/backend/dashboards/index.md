@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-dashboards"></a>
 
 # Dashboards
@@ -16,6 +17,8 @@ To display a list of tasks on the dashboard with the most recent tasks:
 
 The data grid that will be displayed on the dashboard can be based on the already existing `app-tasks-grid` that you used to show a grid of all the tasks being present. Sort the result (the id can be used as a sorting criterion as more recent tasks will have higher ids):
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
  datagrids:
      # ...
@@ -68,6 +71,9 @@ To render the data grid on the dashboard,  create a Twig template based on the `
 ```
 
 The configured `oro_dashboard_widget` route refers to a controller action that comes as part of the `Oro\Bundle\DashboardBundle\Controller\DashboardController` and renders a template whose name is inferred from route parameters (the name of the template that the controller is looking for follows the `{{bundle}}:Dashboard:{{name}}` pattern where `{{bundle}}` and `{{name}}` refer to the route parameters of the dashboard config).
+
+#### NOTE
+If your widget contains some more logic (e.g., calling some service and doing something with its result), you can create your own controller, configure a route for it, and then refer to this route with the route key in your widget configuration.
 
 <a id="dev-dashboards-new-type"></a>
 

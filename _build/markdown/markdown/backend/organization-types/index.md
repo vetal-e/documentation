@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-organization-types"></a>
 
 # Organization Types

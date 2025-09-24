@@ -98,4 +98,8 @@ It is possible to push in a message queue the message that is intended for proce
 it is needed to push such message in the queue that is not consumed by Oro application consumer, otherwise such
 message would likely be processed by `\Oro\Component\MessageQueue\Client\NoopMessageProcessor`.
 
+#### NOTE
+Business Tip
+
+Key industries like manufacturing are undergoing digital revolution. Find out how eCommerce helps drive <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing</a>.
 <!-- Frontend -->

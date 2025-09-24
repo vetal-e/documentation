@@ -32,6 +32,8 @@ There are two ways to pass the constraints:
 
 For example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/DependencyInjection/Compiler/AcmeExtendValidationPass.php
 ```php
 namespace Acme\Bundle\DemoBundle\DependencyInjection\Compiler;
 

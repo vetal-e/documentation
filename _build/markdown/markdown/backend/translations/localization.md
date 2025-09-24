@@ -21,6 +21,8 @@ Localization information is stored in configuration files. Each bundle can add i
 
 ### `locale_data.yml`
 
+#### NOTE
+Resources/config/oro/locale_data.yml
 ```yaml
  US:
      currency_code: USD

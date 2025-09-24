@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-guide-system-logging"></a>
 
 # Logging
@@ -32,6 +33,11 @@ To be on the safe side, log the following:
 * Resources availability (limit reached, capacity exhausted)
 * Service availability (startup, shutdown, response time)
 * Input and output (if it helps to find an issue)
+
+#### NOTE
+Avoid Logging Sensitive Information
+
+Never log sensitive data. Under any circumstances. Always use data anonymization or encryption to secure customer identities and their sensitive business-critical information.
 
 ## Basics
 

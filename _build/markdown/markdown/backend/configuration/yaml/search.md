@@ -8,6 +8,8 @@
 The `search.yml` file is used to configure how your entities are indexed to make them usable by
 the internal search engine of OroPlatform. A fully working example can look like this:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/search.yml
 ```yaml
 search:
     Acme\Bundle\DemoBundle\Entity\Product:

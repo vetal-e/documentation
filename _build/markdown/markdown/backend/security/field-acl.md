@@ -16,6 +16,8 @@ In PHP code, access to the field is provided by the isGranted method of the secu
 
 The second parameter of this method should be an instance of <a href="https://github.com/symfony/security-acl/blob/master/Voter/FieldVote.php" target="_blank">FieldVote</a>:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Controller/FavoriteController.php
 ```php
     #[Route(path: '/new-edit', name: 'new_edit')]
     #[Template('@AcmeDemo/Favorite/index.html.twig')]

@@ -68,6 +68,11 @@ If you are ready to publish your adjustment in the Oro application for free or p
 [How to Add an Extension to the OroPlatform Extensions Store](../../extension/add-extension.md#dev-cookbook-framework-how-to-add-extension-to-marketplace)
 article for the details on how to do this.
 
+#### NOTE
+Business Tip
+
+Are you looking for <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation examples in manufacturing</a>? Discover business cases and digitization success stories in our article.
+
 ## Related Cookbook Articles
 
 * [Create Custom Oro Application](../custom-application.md#dev-cookbook-create-custom-oro-application)

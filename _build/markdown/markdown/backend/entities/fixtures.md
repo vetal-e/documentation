@@ -22,6 +22,8 @@ To make a fixture versioned, it must implement <a href="https://github.com/oroin
 
 Example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Data/ORM/LoadFavoritesData.php
 ```php
 <?php
 

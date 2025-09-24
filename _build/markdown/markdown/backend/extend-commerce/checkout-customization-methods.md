@@ -4,6 +4,8 @@
 
 This document provides details on the most common checkout workflow customizations. To customize the checkout process, you can follow two methods. The first method requires modifying the configuration and logic of an existing checkout. The second method involves creating a new checkout workflow with a custom name and then making all the necessary customizations based on that custom name. For the examples provided, let us assume that we have extended a multistep checkout workflow and named the new workflow acme_demo_checkout.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/workflows.yml
 ```yaml
 imports:
     -
@@ -71,6 +73,19 @@ As an illustration, let us add the `external_po_number` field to the Shopping Li
    >                 property_path: checkout.external_po_number
    > ```
 
+#### NOTE
+Alternative
+
+You can define a checkout workflow attribute and store the data in the Workflow Data:
+
+src/Acme/Bundle/DemoBundle/Resources/config/oro/workflows.yml
+
+workflows:
+    acme_demo_checkout:
+        attributes:
+            # Extends the list of attributes of the b2b_flow_checkout.attributes
+            external_po_number:
+                type: string
 1. Transfer the `external_po_number` value from the Shopping List to the Checkout.
    > To transfer the data from the source object to the checkout during the checkout start decorate an action group `Oro\Bundle\CheckoutBundle\Workflow\ActionGroup\StartShoppingListCheckout` that is responsible for the start logic:
    ```php

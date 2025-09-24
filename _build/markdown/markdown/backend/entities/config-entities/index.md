@@ -11,10 +11,15 @@ Entities will not be configurable by default. They must be tagged as configurabl
 * The #[Config] attribute is used to enable entity-level configuration for an entity.
 * Use the #[ConfigField] attribute to enable config options for selected fields.
 
+#### NOTE
+The bundles from OroPlatform offer a large set of predefined options that you can use in your entities to configure them and control their behavior. Take a look at the entity_config.yml files that can be found in many bundles and read their dedicated documentation.
+
 ### The `#[Config]` Attribute
 
 To make the `Document` entity from the first part of the chapter configurable, import the `Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config` attribute and use it:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Document.php
 ```php
  namespace Acme\Bundle\DemoBundle\Entity;
 

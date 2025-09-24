@@ -85,6 +85,10 @@ Additional options that control the behavior and look-and-feel of the menu item:
 
 The visible label.
 
+#### NOTE
+The label will be passed to the translator. This means that you can also use translation keys
+here.
+
 ### `labelAttributes`
 
 **type**: `map`
@@ -213,4 +217,6 @@ The keys of this map are the names of menu items as created using the [items]() 
 
 The `type` option can be used to choose one of the defined [templates]() to render the menu.
 
+#### NOTE
+This option can only be used for the root item of a menu.
 <!-- Frontend -->

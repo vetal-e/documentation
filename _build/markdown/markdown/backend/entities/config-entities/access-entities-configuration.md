@@ -58,4 +58,6 @@ $acmeConfig->set('comment', 'Updated comment');
 $acmeDemoProvider->getConfigManager()->flush();
 ```
 
+#### NOTE
+Use the oro:entity-config:debug command to display entity configuration and access or modify configuration values from the command line.
 <!-- Frontend -->

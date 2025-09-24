@@ -7,6 +7,8 @@
 The `assets.yml` file used to load Sass and CSS files. The input files will be
 automatically merged to a single output file and optimized for web presentation.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/assets.yml
 ```yaml
 css:
     inputs:

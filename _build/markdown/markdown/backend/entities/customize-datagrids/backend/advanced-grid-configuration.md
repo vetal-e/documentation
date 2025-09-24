@@ -458,27 +458,29 @@ The “There are no users” message is shown for an empty grid and “No users 
   >     # ...
   > ```
 
+  > #### NOTE
+  > Resources/translations/messages.en.yml
   > ```yaml
   > acme:
   >     my_custom_empty_grid_message: 'There are no users'
   >     my_custom_empty_filtered_grid_message: 'No users were found to match your search. Try modifying your search criteria...'
   > ```
 
-### Problem 12
+  ### Problem 12
 
-*I want to hide the workflow step column that is rendered in the grid.*
+  *I want to hide the workflow step column that is rendered in the grid.*
 
-**Solution**:
+  **Solution**:
 
-> ```yaml
-> services:
->     oro_rfp.datagrid.listener.column:
->         class: 'Oro\Bundle\WorkflowBundle\Datagrid\HideWorkflowStepColumnListener'
->         tags:
->             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.rfp-requests-grid, method: onBuildBefore }
-> ```
+  > ```yaml
+  > services:
+  >     oro_rfp.datagrid.listener.column:
+  >         class: 'Oro\Bundle\WorkflowBundle\Datagrid\HideWorkflowStepColumnListener'
+  >         tags:
+  >             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.before.rfp-requests-grid, method: onBuildBefore }
+  > ```
 
-**Related Articles**
+  **Related Articles**
 
-* [Datagrids](../../data-grids/index.md#data-grids)
-* [Datagrid Configuration Reference](../../../configuration/yaml/datagrids.md#reference-format-datagrids)
+  * [Datagrids](../../data-grids/index.md#data-grids)
+  * [Datagrid Configuration Reference](../../../configuration/yaml/datagrids.md#reference-format-datagrids)

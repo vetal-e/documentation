@@ -10,6 +10,8 @@ The validation is triggered in the <a href="http://jsonapi.org/format/#document-
 
 Resource that supports a validation should be marked with enable_validation flag in api.yml:
 
+#### NOTE
+config/api.yml
 ```yaml
  api:
      // ... skipped

@@ -6,6 +6,11 @@
 
 Please follow the steps outlined in the sections below to set up the development environment for Oro application customization tasks.
 
+#### NOTE
+Business Tip
+
+Are you searching for the <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">best B2B eCommerce solution</a>? Utilize our platform comparison chart to weigh your alternatives.
+
 <a id="dev-guide-development-practice-setup-dev-env-requirements"></a>
 
 ## Meet the Hardware and OS Requirements

@@ -30,6 +30,8 @@ See the [How to Create Entities](create-entities.md#create-entities) article to 
 
 Let’s also make the entity compliant with the <a href="https://github.com/orocommerce/orocommerce/blob/071c81dfb0ed3c5240edba0122a7ce5d647ecbcf/src/OroB2B/Bundle/ProductBundle/Model/ProductHolderInterface.php" target="_blank">ProductHolderInterface</a>, so it will be possible to reuse it in other places (e.g., reports). Besides the product reference, our entity will have only one text field to store our data. You can add multiple fields and use other data types according to your requirement:
 
+#### NOTE
+src/Oro/Bundle/BlogPostExampleBundle/Entity/ProductOptions.php
 ```php
 <?php
 

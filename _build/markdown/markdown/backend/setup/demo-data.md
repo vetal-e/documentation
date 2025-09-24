@@ -8,6 +8,11 @@ To load demo data after installation, run:
 php bin/console oro:migration:data:load --fixtures-type=demo --env=prod
 ```
 
+#### NOTE
+You can use the --dry-run option to first check which fixtures will be loaded:
+
+php bin/console oro:migration:data:load --dry-run --fixtures-type=demo --env=prod
+
 To load demo data fixtures from the specified package directories, run:
 
 ```none

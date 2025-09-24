@@ -418,6 +418,8 @@ workflows:
 
 You can enable a user to modify the attributes of the record during transitions. To do this, list attributes that can be modified during any of the workflow’s transitions under the `attributes` key:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/workflows.yml
 ```yaml
  workflows:
      phone_call:
@@ -442,6 +444,20 @@ You can enable a user to modify the attributes of the record during transitions.
                  options:
                      class: Acme\Bundle\DemoBundle\Entity\PhoneConversation
 ```
+
+#### NOTE
+By default, the attribute data is stored inside the WorkflowItem entity. Consequently, this data can only be accessed in the scope of the specific workflow for an entity.
+
+To automatically store and retrieve attributes data by a property path (i.e. such attributes can be considered as links to an entity’s values), use the property_path option instead:
+
+workflows:
+    phone_call:
+        # ...
+        attributes:
+            timeout:
+                property_path: entity.call_timeout
+
+The entity part of the property path refers to the underlying entity. You can change the name using the entity_attribute option.
 
 **Translations**
 

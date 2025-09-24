@@ -15,6 +15,8 @@ The <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/Entit
 
 To create own provider just create a class implementing <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Provider/EntityClassNameProviderInterface.php" target="_blank">EntityClassNameProviderInterface</a> and register it in DI container with the tag **oro_entity.class_name_provider**. You can also use the existing <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Provider/AbstractEntityClassNameProvider.php" target="_blank">abstract provider</a> as a superclass for your provider.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Provider/AcmeClassNameProvider.php
 ```php
 namespace Acme\Bundle\DemoBundle\Provider;
 

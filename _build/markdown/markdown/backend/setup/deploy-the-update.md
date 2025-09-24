@@ -101,4 +101,8 @@ To retrieve a new version and upgrade your Oro application instance:
 
 * [Upgrade the Application to the Next Version](upgrade-to-new-version.md#upgrade-application).
 
+#### NOTE
+Business Tip
+
+Looking to harness the new trend of digital commerce? Check out our guide on a <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B marketplace platform</a>.
 <!-- Frontend -->

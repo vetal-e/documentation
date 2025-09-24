@@ -170,6 +170,9 @@ class AcmeCoreBundle extends Bundle
 }
 ```
 
+#### NOTE
+You can use AmqpMessageQueueBundle to register the factory automatically
+
 You can use the `ORO_MQ_DSN` environment variable:
 
 ```bash

@@ -9,6 +9,8 @@ All the configuration described below is added to the `importexport.yml` file in
 `Resources/config` directory of your application bundle. Make sure that you have a container
 extension class in your bundle that loads the configuration file:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/DependencyInjection/AcmeDemoExtension.php
 ```php
 namespace Acme\Bundle\DemoBundle\DependencyInjection;
 
@@ -254,6 +256,29 @@ contact data from a CSV file:
    This writer stores the data when its
    `write()`
    method is executed.
+
+#### NOTE
+The Import Process in the User Interface
+
+The user interface separates the import process for the ContactBundle
+in three steps:
+
+In the first step, the user selects the source file that he wants to
+import in a form and submits it (see the importForm()
+controller action which is configured by the oro_importexport_import_form
+route). This action requires an “entity” parameter which is the class
+name of the entity that will be imported.
+
+In the second step, import validation is triggered (see the importValidate()
+controller action configured by the oro_importexport_import_validate
+route). As a result, the user will be presented with all actions that will
+be performed by the import as well as any errors that have occurred in the
+previous step. Records with errors can’t be imported; however, errors do
+not block valid records.
+
+In the final step, the import is processed (see the importProcess
+controller action which is configured by the oro_importexport_import_process
+route).
 
 ## Export Process in Detail
 

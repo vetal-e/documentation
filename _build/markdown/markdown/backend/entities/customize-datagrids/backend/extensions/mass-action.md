@@ -36,6 +36,8 @@ Below is an illustration of implementing a simple AJAX mass action for Unlock Us
 
 1. Implement the handler service.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Datagrid/Extension/MassAction/UserUnlockHandler.php
 ```php
 namespace Acme\Bundle\DemoBundle\Datagrid\Extension\MassAction;
 

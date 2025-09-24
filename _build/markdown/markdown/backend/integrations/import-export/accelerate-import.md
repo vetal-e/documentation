@@ -104,6 +104,12 @@ it will disable all optional listeners. Here is an example:
 $ bin/console oro:import:file ~/Contact_2000.csv --email=test@test.com --disabled-listeners=all
 ```
 
+#### NOTE
+Remember that disabling listeners actually disables part of the backend functionality, so before using it
+make sure this part is not required. E.g., if the oro_search.index_listener listener is disabled, then
+imported entities will not be found by the search engine (however, this may be fixed by manual search reindex
+using the oro:search:reindex command, which rebuilds the search index).
+
 ## Write Custom Import Strategy
 
 OroPlatform provides `Oro\Bundle\ImportExportBundle\Strategy\Import\ConfigurableAddOrReplaceStrategy`

@@ -71,6 +71,11 @@ This guide demonstrates how to set up [Docker and Symfony Server development sta
    ```
 8. Restart the terminal and web browser to get them ready.
 
+#### NOTE
+Business Tip
+
+Digital technologies are gradually being adopted by manufacturing companies. Learn how eCommerce can help you achieve <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digitalization in manufacturing</a>.
+
 ## What’s Next
 
 * [Follow the recommendations](docker-and-symfony/index.md#setup-dev-env-docker-symfony-recommendations)

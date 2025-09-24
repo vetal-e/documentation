@@ -33,4 +33,8 @@ if you see the following error message:
 If the system has the customer portal package installed, OAuth authorization for customer users
 to the storefront API resources is enabled automatically.
 
+#### NOTE
+Business Tip
+
+Want to take advantage of the new digital commerce trend? Check out everything you need to know about a <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B wholesale marketplace</a>.
 <!-- Frontend -->

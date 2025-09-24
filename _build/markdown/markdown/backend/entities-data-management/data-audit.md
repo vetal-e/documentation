@@ -10,10 +10,15 @@ The <a href="https://github.com/oroinc/platform/tree/master/src/Oro/Bundle/DataA
 DataAudit can only be enabled for Configurable entities. To add a property of an entity to the changelog, enable the audit for the entity itself and specify some fields you want to be logged. To achieve this, use the `Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config` and `Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField` attributes for the entity.
 
 #### NOTE
+Note that this annotation will be read-only on installation. On platform updates, this annotation will be read and only saved in the configuration for new entities or for entities that were not Configurable before or have not been changed via the configuration UI.
+
+#### NOTE
 An audit can be enabled/disabled per an entire entity or for separate fields in the UI under *System* / *Entities* / *EntityManagement* (attribute  *Auditable*).
 
 Example of attribute configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Question.php
 ```php
 <?php
 

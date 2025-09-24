@@ -14,6 +14,8 @@ To customize the installation process and modify the database structure and/or d
 You can create your own [migrations](../../entities/migration.md#backend-entities-migrations) that can be executed during the installation.
 A migration is a class which implements the `Oro\Bundle\MigrationBundle\Migration\Migration` interface:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/v1_0/CustomMigration.php
 ```php
 namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_0;
 
@@ -58,4 +60,9 @@ class CustomFixture implements FixtureInterface
 }
 ```
 
+#### NOTE
+Your data fixture classes must reside in the “Migrations/Data/ORM” sub-directory of your bundle to be loaded automatically during the installation.
+
+#### NOTE
+Read the <a href="https://github.com/doctrine/data-fixtures/blob/master/README.md" target="_blank">doctrine data fixtures documentation</a> to learn more about the Doctrine Data Fixtures extension.
 <!-- Frontend -->

@@ -20,6 +20,8 @@ class MyConfigExtension extends AbstractConfigExtension
 }
 ```
 
+#### NOTE
+config/config.yml
 ```yaml
 services:
     acme.api.my_config_extension:

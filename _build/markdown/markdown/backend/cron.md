@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-guide-system-cron-jobs"></a>
 
 # Cron
@@ -47,6 +48,8 @@ A scheduled command in OroPlatform is a regular Symfony console command that imp
 Implementing <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/CronBundle/Command/CronCommandScheduleDefinitionInterface.php" target="_blank">CronCommandScheduleDefinitionInterface</a> requires the implementation of the **getDefaultDefinition()** method. It returns the <a href="http://www.unix.com/man-page/linux/5/crontab/" target="_blank">crontab compatible</a> description of when the command should be executed. For example, if a command should run every day five minutes after midnight, the appropriate
 value is **5 0 \* \* \***.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Command/SomeCronCommand.php
 ```php
 namespace Acme\Bundle\DemoBundle\Command;
 

@@ -27,6 +27,8 @@ class AcmeFastShippingBundle extends Bundle
 }
 ```
 
+#### NOTE
+The body of your class can be empty if you use regular case in the name of your organization (i.e. Acme or ACME in our example). getExtension() is necessary when you use uppercase, as Symfony treats uppercase letters in the organization prefix as separate words when creating aliases.
 1. To enable the bundle, create Resources/config/oro/bundles.yml in the same directory, with the following content:
 
 ```yaml

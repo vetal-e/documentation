@@ -248,6 +248,11 @@ The private key should remain confidential and must not be stored within the web
 
 You should now be able to open the homepage *http(s)://<your-domain-name>/* and use the application.
 
+#### NOTE
+Business Tip
+
+Do you wish to take advantage of the new digital commerce trend? Explore our <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B marketplace</a> guide.
+
 ## What’s Next
 
 ### Optimization, Scalability, and Configuration Recommendations

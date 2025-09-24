@@ -29,6 +29,8 @@ You do not have to explicitly declare the topic as a tagged service if the `auto
 
 An example of an MQ topic:
 
+#### NOTE
+Oro/Bundle/EmailBundle/Async/Topic/SendAutoResponseTopic.php
 ```php
  namespace Oro\Bundle\EmailBundle\Async\Topic;
 

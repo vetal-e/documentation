@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-translations"></a>
 
 # Translation and Localization

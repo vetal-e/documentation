@@ -12,6 +12,8 @@ Using ACLs you can granularly grant access to your entities. Doing so requires t
 
 To have your entity available in the admin UI to be able to assign permissions to your users, you have to enable ACLs for these entities using the `#[Config]` attribute:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Favorite.php
 ```php
 namespace Acme\Bundle\DemoBundle\Entity;
 
@@ -39,6 +41,9 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 ```
 
 After you have done this and have cleared the cache, you can toggle all kinds of permission checks (`CREATE`, `EDIT`, `DELETE`, `VIEW`, and `ASSIGN`) in the user role management interface.
+
+#### NOTE
+You can use the optional group_name attribute to group entities by application. The value of this attribute is used to split the configured access control list into application scopes.
 
 <a id="coobook-entities-acl-create"></a>
 
@@ -91,6 +96,69 @@ acls:
         class: Acme\Bundle\DemoBundle\Entity\Favorite
         permission: EDIT
 ```
+
+#### NOTE
+Security Actions that Are not Related to an Entity
+
+You can also create access control lists that are only used to protect specific actions unrelated to an entity. To do that, set the type of the ACL to action instead of entity:
+
+src/Acme/Bundle/DemoBundle/Controller/FavoriteController.php
+
+namespace Acme\\Bundle\\DemoBundle\\Controller;
+
+use Acme\\Bundle\\DemoBundle\\Entity\\Favorite;
+use Oro\\Bundle\\SecurityBundle\\Attribute\\Acl;
+use Oro\\Bundle\\SecurityBundle\\Attribute\\CsrfProtection;
+use Symfony\\Bridge\\Twig\\Attribute\\Template;
+use Symfony\\Component\\Routing\\Attribute\\Route;
+
+/\*\*
+ \* Contains CRUD actions for Favorite
+ \*/
+#[Route(path: '/favorite', name: 'acme_demo_favorite_')]
+class FavoriteController extends AbstractController
+{
+    #[Route(path: '/protected', name: 'protected')]
+    #[CsrfProtection]
+    #[Template('@AcmeDemo/Favorite/index.html.twig')]
+    #[Acl(id: 'acme_demo_favorite_protected_action', type: 'action')]
+    public function protectedAction()
+    {
+        $repository = $this->container->get(DoctrineHelper::class)
+            ->getEntityManager(Favorite::class)
+            ->getRepository(Favorite::class);
+        $queryBuilder = $repository
+            ->createQueryBuilder('f')
+            ->where('f.viewCount > :viewCount')
+            ->orderBy('f.viewCount', 'ASC')
+            ->setParameter('viewCount', 6);
+        $aclHelper = $this->container->get(AclHelper::class);
+        $query = $aclHelper->apply($queryBuilder, 'VIEW');
+
+        return [
+            'data' => $query->getResult()
+        ];
+    }
+}
+
+
+When configuring the ACL using the YAML config format, you also have to set the controller to use the bindings option to bind the ACL:
+
+src/Acme/Bundle/DemoBundle/Resources/config/oro/acls.yml
+
+acls:
+    favorites_edit:
+        type: entity
+        class: Acme\\Bundle\\DemoBundle\\Entity\\Favorite
+        permission: EDIT
+        bindings:
+            -   class: Acme\\Bundle\\DemoBundle\\Controller\\FavoritesController
+                method: newEditAction
+
+
+All configuration options are explained in full details in the #[Acl],
+#[AclAncestor], and ACL YAML format
+reference.
 
 <a id="coobook-entities-acl-check"></a>
 

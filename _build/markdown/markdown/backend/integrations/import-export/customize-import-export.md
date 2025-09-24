@@ -32,6 +32,8 @@ To make OroPlatform capable to export your custom entities as CSV files and to b
 To enable Oro application read configuration settings from the configuration files, add a container
 extension class in the entity bundle and implement the *load* method, like in the example below:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/DependencyInjection/AcmeDemoExtension.php
 ```php
 namespace Acme\Bundle\DemoBundle\DependencyInjection;
 

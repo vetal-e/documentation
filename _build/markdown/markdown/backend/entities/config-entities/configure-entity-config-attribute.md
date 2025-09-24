@@ -8,6 +8,8 @@ You can use configuration to define a new entity config attribute:
 
 Example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/EntityConfig/AcmeEntityConfiguration.php
 ```php
 <?php
 

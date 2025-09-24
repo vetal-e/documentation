@@ -78,6 +78,8 @@ As a workaround, we changed the bundle registration system in Oro applications s
 
 For the bundle to be registered and enabled in Oro applications, it is sufficient to mention the bundle in its  *Resources/config/oro/bundles.yml* file. You can activate any bundle in the application by putting its primary class name in the *Resources/config/oro/bundles.yml* of your bundle (keep in mind, though, that you must physically install the bundle with the help of Composer).
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/bundles.yml
 ```yaml
 bundles:
     - { name: Acme\Bundle\DemoBundle\AcmeDemoBundle, priority: 70 }

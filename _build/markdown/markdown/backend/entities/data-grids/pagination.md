@@ -12,6 +12,8 @@ Suppose that pagination must be enabled for the User entity with an identifier c
 
 1. The datagrid must have an `entity_pagination` option in the configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
 datagrids:
     acme-demo-question-grid:

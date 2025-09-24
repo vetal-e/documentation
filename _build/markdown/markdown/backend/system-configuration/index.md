@@ -1,3 +1,4 @@
+#### NOTE
 <a id="index-0"></a>
 
 <a id="backend-system-configuration"></a>
@@ -19,6 +20,8 @@ To define your own configuration settings in a bundle, use the
 `Oro\Bundle\ConfigBundle\DependencyInjection\SettingsBuilder` in the
 `Configuration` class:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/DependencyInjection/Configuration.php
 ```php
 namespace Acme\Bundle\DemoBundle\DependencyInjection;
 
@@ -698,4 +701,8 @@ services:
             - { name: oro_config.configuration_search_provider, priority: -20 }
 ```
 
+#### NOTE
+Business Tip
+
+Major digital transformation is taking place in industries like manufacturing. Learn more about the benefits of <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing industry</a>.
 <!-- Frontend -->

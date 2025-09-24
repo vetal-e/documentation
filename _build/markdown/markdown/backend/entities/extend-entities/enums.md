@@ -14,6 +14,8 @@ To add the option set field to an entity, you can use <a href="https://github.co
 
 The following example illustrates how to do it:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/v1_3/AddEnumFieldOroUser.php
 ```php
 <?php
 

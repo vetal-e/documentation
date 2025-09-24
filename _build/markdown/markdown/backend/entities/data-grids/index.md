@@ -18,6 +18,8 @@ The backend datagrid is configured in the `/config/oro/datagrids.yml` file, whil
 
 The `source` option is used to configure a Doctrine query builder that is used to fetch the data to be displayed in the grid:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
 datagrids:
     acme-demo-question-grid-base:

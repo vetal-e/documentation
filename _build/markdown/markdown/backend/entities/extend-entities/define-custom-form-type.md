@@ -12,6 +12,8 @@ Each provides guesses, and the best guess is selected based on the guesser’s c
 There are a few ways to define a custom form type and form options for a particular extended field:
 
 1. Through the compiler pass to add or override the guesser’s mappings:
+   > #### NOTE
+   > src/Acme/Bundle/DemoBundle/DependencyInjection/Compiler/AcmeExtendGuesserPass.php
    > ```php
    > namespace Acme\Bundle\DemoBundle\DependencyInjection\Compiler;
 
@@ -32,107 +34,107 @@ There are a few ways to define a custom form type and form options for a particu
    >     }
    > }
    > ```
-2. With a custom form extend field options provider that can be used for providing form options that need a complex logic and cannot be declared in compiler pass:
-   > ```php
-   > namespace Acme\Bundle\DemoBundle\Provider;
+   2. With a custom form extend field options provider that can be used for providing form options that need a complex logic and cannot be declared in compiler pass:
+      > ```php
+      > namespace Acme\Bundle\DemoBundle\Provider;
 
-   > use Oro\Bundle\EntityExtendBundle\Provider\ExtendFieldFormOptionsProviderInterface;
+      > use Oro\Bundle\EntityExtendBundle\Provider\ExtendFieldFormOptionsProviderInterface;
 
-   > class ExtendFieldCustomFormOptionsProvider implements ExtendFieldFormOptionsProviderInterface
-   > {
-   >     #[\Override]
-   >     public function getOptions(string $className, string $fieldName): array
-   >     {
-   >         $options = [];
-   >         if ($className === '...' && $fieldName === '...') {
-   >             $options['custom_option'] = 'custom_value';
-   >         }
+      > class ExtendFieldCustomFormOptionsProvider implements ExtendFieldFormOptionsProviderInterface
+      > {
+      >     #[\Override]
+      >     public function getOptions(string $className, string $fieldName): array
+      >     {
+      >         $options = [];
+      >         if ($className === '...' && $fieldName === '...') {
+      >             $options['custom_option'] = 'custom_value';
+      >         }
 
-   >         return $options;
-   >     }
-   > }
-   > ```
+      >         return $options;
+      >     }
+      > }
+      > ```
 
-   > Register it in the dependency injection container:
-   > ```yaml
-   > services:
-   >     acme.provider.extend_field_form_options:
-   >       class: Acme\Bundle\DemoBundle\Provider\ExtendFieldCustomFormOptionsProvider
-   >       tags:
-   >         - { name: acme_entity_extend.form_options_provider }
-   > ```
-3. With a custom guesser that will have higher priority or will provide a guess with the highest confidence value:
-   > ```php
-   > namespace Acme\Bundle\DemoBundle\Form\Guesser;
+      > Register it in the dependency injection container:
+      > ```yaml
+      > services:
+      >     acme.provider.extend_field_form_options:
+      >       class: Acme\Bundle\DemoBundle\Provider\ExtendFieldCustomFormOptionsProvider
+      >       tags:
+      >         - { name: acme_entity_extend.form_options_provider }
+      > ```
+   3. With a custom guesser that will have higher priority or will provide a guess with the highest confidence value:
+      > ```php
+      > namespace Acme\Bundle\DemoBundle\Form\Guesser;
 
-   > use Symfony\Component\Form\FormTypeGuesserInterface;
-   > use Symfony\Component\Form\Guess\TypeGuess;
-   > use Symfony\Component\Form\Guess\ValueGuess;
+      > use Symfony\Component\Form\FormTypeGuesserInterface;
+      > use Symfony\Component\Form\Guess\TypeGuess;
+      > use Symfony\Component\Form\Guess\ValueGuess;
 
-   > class CustomTypeGuesser implements FormTypeGuesserInterface
-   > {
-   >     #[\Override]
-   >     public function guessType(string $class, string $property)
-   >     {
-   >         // some conditions here
-   >         if ($class === '...' && $property === '') {
-   >             $guessedType = '';
-   >             $options     = [];
-   >             return new TypeGuess($guessedType, $options, TypeGuess::HIGH_CONFIDENCE);
-   >         }
+      > class CustomTypeGuesser implements FormTypeGuesserInterface
+      > {
+      >     #[\Override]
+      >     public function guessType(string $class, string $property)
+      >     {
+      >         // some conditions here
+      >         if ($class === '...' && $property === '') {
+      >             $guessedType = '';
+      >             $options     = [];
+      >             return new TypeGuess($guessedType, $options, TypeGuess::HIGH_CONFIDENCE);
+      >         }
 
-   >         // not guessed
-   >         return new ValueGuess(false, ValueGuess::LOW_CONFIDENCE);
-   >     }
+      >         // not guessed
+      >         return new ValueGuess(false, ValueGuess::LOW_CONFIDENCE);
+      >     }
 
-   >     #[\Override]
-   >     public function guessRequired(string $class, string $property)
-   >     {
-   >         return new ValueGuess(false, ValueGuess::LOW_CONFIDENCE);
-   >     }
+      >     #[\Override]
+      >     public function guessRequired(string $class, string $property)
+      >     {
+      >         return new ValueGuess(false, ValueGuess::LOW_CONFIDENCE);
+      >     }
 
-   >     #[\Override]
-   >     public function guessMaxLength(string $class, string $property)
-   >     {
-   >         return new ValueGuess(null, ValueGuess::LOW_CONFIDENCE);
-   >     }
+      >     #[\Override]
+      >     public function guessMaxLength(string $class, string $property)
+      >     {
+      >         return new ValueGuess(null, ValueGuess::LOW_CONFIDENCE);
+      >     }
 
-   >     #[\Override]
-   >     public function guessPattern(string $class, string $property)
-   >     {
-   >         return new ValueGuess(null, ValueGuess::LOW_CONFIDENCE);
-   >     }
-   > }
-   > ```
+      >     #[\Override]
+      >     public function guessPattern(string $class, string $property)
+      >     {
+      >         return new ValueGuess(null, ValueGuess::LOW_CONFIDENCE);
+      >     }
+      > }
+      > ```
 
-   > Register it in the dependency injection container:
-   > ```yaml
-   > acme.form.guesser.extend_field:
-   >     class: Acme\Bundle\DemoBundle\Form\Guesser\CustomTypeGuesser
-   >     tags:
-   >         - { name: form.type_guesser, priority: N }
-   > ```
+      > Register it in the dependency injection container:
+      > ```yaml
+      > acme.form.guesser.extend_field:
+      >     class: Acme\Bundle\DemoBundle\Form\Guesser\CustomTypeGuesser
+      >     tags:
+      >         - { name: form.type_guesser, priority: N }
+      > ```
 
-   > Here is an idea of what N should be, the existing guessers have the following priorities:
+      > Here is an idea of what N should be, the existing guessers have the following priorities:
 
-   > | Guesser                                                                                                                                                                       |   Priority |
-   > |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-   > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Form/Guesser/FormConfigGuesser.php" target="_blank">FormConfigGuesser</a>                 |         20 |
-   > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityExtendBundle/Form/Guesser/ExtendFieldTypeGuesser.php" target="_blank">ExtendFieldTypeGuesser</a> |         15 |
-   > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Form/Guesser/DoctrineTypeGuesser.php" target="_blank">DoctrineTypeGuesser</a>             |         10 |
+      > | Guesser                                                                                                                                                                       |   Priority |
+      > |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+      > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Form/Guesser/FormConfigGuesser.php" target="_blank">FormConfigGuesser</a>                 |         20 |
+      > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityExtendBundle/Form/Guesser/ExtendFieldTypeGuesser.php" target="_blank">ExtendFieldTypeGuesser</a> |         15 |
+      > | <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Form/Guesser/DoctrineTypeGuesser.php" target="_blank">DoctrineTypeGuesser</a>             |         10 |
 
-   > Select it according to what you need to achieve.
-4. Using attribute to a field or a related entity (if an extended field is an association)
-   > ```php
-   > #[Config(
-   >     defaultValues: [
-   >         ...
-   >         'form' => [
-   >             'form_type' => 'Oro\Bundle\UserBundle\Form\Type\UserSelectType',
-   >             'form_option' => ['option1' => ..., ...]
-   >         ]
-   >     ]
-   > )]
-   > ```
+      > Select it according to what you need to achieve.
+   4. Using attribute to a field or a related entity (if an extended field is an association)
+      > ```php
+      > #[Config(
+      >     defaultValues: [
+      >         ...
+      >         'form' => [
+      >             'form_type' => 'Oro\Bundle\UserBundle\Form\Type\UserSelectType',
+      >             'form_option' => ['option1' => ..., ...]
+      >         ]
+      >     ]
+      > )]
+      > ```
 
-<!-- Frontend -->
+   <!-- Frontend -->

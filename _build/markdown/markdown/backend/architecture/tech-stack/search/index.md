@@ -516,6 +516,11 @@ The standard search index provides API resources that can be used to work with t
 
 In both cases, API returns a list of found entities.
 
+#### NOTE
+Business Tip
+
+New technologies empower digital transformation in key industries such as manufacturing. Read how companies use eCommerce to enable <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing</a>.
+
 ## References
 
 * <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.x/index.html" target="_blank">Elasticsearch References</a>

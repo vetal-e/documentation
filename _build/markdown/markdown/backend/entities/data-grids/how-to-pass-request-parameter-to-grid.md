@@ -11,6 +11,8 @@ For this, use grid event listeners or an existing listener implementation.
 
 Suppose you have a grid configuration and a named parameter inside the where clause of its source query:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
 datagrids:
     acme-demo-question-grid-by-priority:
@@ -98,6 +100,9 @@ In case if names of the parameter in the grid and the query do not match, you ca
          # ...
      # ...
 ```
+
+#### NOTE
+A datasource must implement the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/DataGridBundle/Datasource/BindParametersInterface.php" target="_blank">BindParametersInterface</a> to support the bind_parameters option.
 
 ## Solution 2. Create Custom Event Listener
 

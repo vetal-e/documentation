@@ -14,6 +14,8 @@ First you need to specify name and namespace of your bundle. Symfony framework a
 Let us assume that we want to create the AcmeDemoBundle and put it under the namespace `Acme\Bundle\DemoBundle`
 in the `/src` directory. We need to create the corresponding directory structure and the bundle file with the following content:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/AcmeDemoBundle.php
 ```php
 
 namespace Acme\Bundle\DemoBundle;

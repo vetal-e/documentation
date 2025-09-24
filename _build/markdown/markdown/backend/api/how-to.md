@@ -1292,4 +1292,8 @@ services:
             - { name: oro.api.processor, action: customize_form_data, event: post_submit, class: Acme\Bundle\DemoBundle\Entity\SomeEntity }
 ```
 
+#### NOTE
+Business Tip
+
+Do you want to get started with <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digitalization in manufacturing</a>? Explore our guide for essential tips, best practices, and success stories.
 <!-- Frontend -->

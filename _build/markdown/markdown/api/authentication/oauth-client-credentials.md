@@ -87,4 +87,8 @@ Content-Type: application/vnd.api+json
 #### NOTE
 Access tokens for back-office and storefront API are not interchangeable. If you attempt to request data for the storefront API with a token generated for the back-office application, access will be denied.
 
+#### NOTE
+Business Tip
+
+<a href="https://oroinc.com/b2b-ecommerce/what-is-b2b-ecommerce/" target="_blank">What is B2B eCommerce</a> and how does it differ from B2C? Read our guide to find out.
 <!-- Frontend -->

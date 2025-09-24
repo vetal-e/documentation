@@ -1,3 +1,4 @@
+#### NOTE
 <a id="architecture-guide"></a>
 
 # Application Architecture
@@ -112,4 +113,8 @@ Community versions of Oro applications are distributed under the <a href="http:/
     * [Admin Theme Configuration](bundle-less-structure.md#admin-theme-configuration)
   * [Tests](bundle-less-structure.md#tests)
 
+#### NOTE
+Business Tip
+
+Are you in the process of selecting the <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">best eCommerce platform for B2B</a>? Evaluate nine alternatives on our B2B comparison page.
 <!-- Frontend -->

@@ -7,6 +7,11 @@ This package provides a possibility to avoid schema update when you create custo
 
 However, these fields have some restrictions. Their data is stored in the serialized_data column as a serialized array but the serialized_data field is hidden from the UI on entity config page.
 
+#### NOTE
+Serialized Enum Fields
+
+Serialized fields have different restrictions than enum fields (select, multiselect), which are also stored in the serialized_data column. The Enum fields functionality is described in Option Set Fields.
+
 Not supported features:
 
 - grid filtering and sorting
@@ -41,6 +46,8 @@ The Serialized Fields bundle adds a new field called Storage Type within New fie
 
 To create a serialized field via migration, use <a href="https://github.com/oroinc/OroEntitySerializedFieldsBundle/blob/master/Migration/Extension/SerializedFieldsExtension.php" target="_blank">SerializedFieldsExtension</a>. For example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/v1_4/AddSerializedFieldMigration.php
 ```php
 <?php
 

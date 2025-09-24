@@ -279,6 +279,8 @@ This attribute is used to enable or disable the ability to edit an entity and it
 
 Example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/NotManageableEntity.php
 ```php
 namespace Acme\Bundle\DemoBundle\Entity;
 

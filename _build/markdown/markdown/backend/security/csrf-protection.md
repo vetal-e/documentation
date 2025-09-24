@@ -12,6 +12,8 @@ To protect controllers against CSRF, use AJAX #[CsrfProtection] attribute. You c
 
 **Controller level protection**
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Controller/FavoriteController.php
 ```php
 <?php
 

@@ -10,6 +10,8 @@
 The `acls.yml` file of a bundle can contain a map with access control lists. Each key of the map
 is the unique name of an ACL while the values for each ACL is a map of options:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/acls.yml
 ```yaml
 acls:
 
@@ -109,22 +111,28 @@ The type of resource that should be protected. Possible values are:
 > A certain action in the user interface that is not bound to a particular domain object or a the
 > type (class) of a domain object.
 
-`entity`
+> #### NOTE
+> When using the action type, it is only possible to grant or deny access to a user for a
+> given action. If you want to grant them access for a certain action only for a subset of
+> the data, you can configure ACLs for each object individually by setting the action
+> option to entity and then control the allowed action with the permission option.
 
-> When `type` is set to entity, each domain object can be protected individually which means that
-> access can be granted based on a particular domain object.
+> `entity`
 
-## `group_name`
+> > When `type` is set to entity, each domain object can be protected individually which means that
+> > access can be granted based on a particular domain object.
 
-**type**: `string`
+> ## `group_name`
 
-The name of a group to which an ACL belongs to.
+> **type**: `string`
 
-## `category`
+> The name of a group to which an ACL belongs to.
 
-**type**: `string`
+> ## `category`
 
-The identifier of an ACL category in which an ACL should be shown in the role management UI.
+> **type**: `string`
 
-The configuration of ACL categories is described in
-[Access Control List Categories](acl-categories.md#access-control-lists-categories) section.
+> The identifier of an ACL category in which an ACL should be shown in the role management UI.
+
+> The configuration of ACL categories is described in
+> [Access Control List Categories](acl-categories.md#access-control-lists-categories) section.

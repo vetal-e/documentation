@@ -15,11 +15,18 @@ To solve this, you can use <a href="https://github.com/oroinc/platform/tree/mast
 * Show dynamic fields in views, forms, and grids.
 * Support for dynamic relationships between entities.
 
+#### NOTE
+It is not recommended to rely on the existence of dynamic fields in your business logic since
+they can be removed by administrative users.
+
 <a id="book-entities-extended-entities-create"></a>
 
 ## Make Entity Extended
 
 1. Let the *entity class* implement the *ExtendEntityInterface* using the *ExtendEntityTrait*:
+
+   #### NOTE
+   src/Acme/Bundle/DemoBundle/Entity/Document.php
    ```php
    namespace Acme\Bundle\DemoBundle\Entity;
 
@@ -39,214 +46,220 @@ To solve this, you can use <a href="https://github.com/oroinc/platform/tree/mast
      use ExtendEntityTrait;
    }
    ```
-2. Add new fields using a migration script:
 
-```php
-<?php
+   2. Add new fields using a migration script:
 
-namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_1;
+   ```php
+   <?php
 
-use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
-use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\MigrationBundle\Migration\Migration;
-use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+   namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_1;
 
-class AddDocumentRatingColumn implements Migration
-{
-    #[\Override]
-    public function up(Schema $schema, QueryBag $queries)
-    {
-        $table = $schema->getTable('acme_demo_document');
-        $table->addColumn(
-            'document_rating',
-            'integer',
-            ['oro_options' => [
-                'extend' => [
-                    'is_extend' => true,
-                    'owner' => ExtendScope::OWNER_CUSTOM
-                ],
-                'entity' => ['label' => 'Document rating'],
-                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_TRUE]
-            ]]
-        );
-    }
-}
-```
+   use Doctrine\DBAL\Schema\Schema;
+   use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+   use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+   use Oro\Bundle\MigrationBundle\Migration\Migration;
+   use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-The example above adds a new column `document_rating`. The third parameter configures the column
-as an extended field. The `ExtendScope::OWNER_CUSTOM` owner in the `oro_options` key
-indicates that the column was added dynamically. It will be visible and configurable in the UI.
-
-Note that this field is neither present in the `Document` entity class nor in the
-`ExtendDocument` class in your bundle, but it will only be part of the `ExtendDocument` class that
-will be generated in your application cache.
-
-1. Finally, load the changed configuration using the `oro:migration:load` command:
-   ```bash
-   php bin/console oro:migration:load
+   class AddDocumentRatingColumn implements Migration
+   {
+       #[\Override]
+       public function up(Schema $schema, QueryBag $queries)
+       {
+           $table = $schema->getTable('acme_demo_document');
+           $table->addColumn(
+               'document_rating',
+               'integer',
+               ['oro_options' => [
+                   'extend' => [
+                       'is_extend' => true,
+                       'owner' => ExtendScope::OWNER_CUSTOM
+                   ],
+                   'entity' => ['label' => 'Document rating'],
+                   'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_TRUE]
+               ]]
+           );
+       }
+   }
    ```
 
-#### NOTE
-You can add, modify, and remove custom fields in the UI under *System > Entities > Entity Management*.
+   The example above adds a new column `document_rating`. The third parameter configures the column
+   as an extended field. The `ExtendScope::OWNER_CUSTOM` owner in the `oro_options` key
+   indicates that the column was added dynamically. It will be visible and configurable in the UI.
 
-<!-- Apply Changes
--------------
+   Note that this field is neither present in the `Document` entity class nor in the
+   `ExtendDocument` class in your bundle, but it will only be part of the `ExtendDocument` class that
+   will be generated in your application cache.
 
-The following command updates the database schema and all related caches to reflect changes made in extended entities:
+   1. Finally, load the changed configuration using the `oro:migration:load` command:
+      ```bash
+      php bin/console oro:migration:load
+      ```
 
-.. code-block:: bash
+   #### NOTE
+   You can add, modify, and remove custom fields in the UI under *System > Entities > Entity Management*.
 
-    php bin/console oro:entity-extend:update
+   <!-- Apply Changes
+   -------------
 
-The ``dry-run`` can be used to show changes without applying them, for example:
+   The following command updates the database schema and all related caches to reflect changes made in extended entities:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-    php bin/console oro:entity-extend:update --dry-run -->
+       php bin/console oro:entity-extend:update
 
-<a id="book-entities-extended-entities-add-fields"></a>
+   The ``dry-run`` can be used to show changes without applying them, for example:
 
-## Add Entity Fields
+   .. code-block:: bash
 
-You may require to customize the default Oro entities to meet the needs of your application.
+       php bin/console oro:entity-extend:update --dry-run -->
 
-Let us customize the User entity to store the date when a contact becomes a member of your company’s partner network.
-As an illustration, we will use the User entity from a custom DemoBundle.
+   <a id="book-entities-extended-entities-add-fields"></a>
 
-To achieve this, add a new field `partnerSince` to store the date and time of when a contact joined your network.
-To add the field, create a migration:
+   ## Add Entity Fields
 
-```php
-<?php
+   You may require to customize the default Oro entities to meet the needs of your application.
 
-namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_2;
+   Let us customize the User entity to store the date when a contact becomes a member of your company’s partner network.
+   As an illustration, we will use the User entity from a custom DemoBundle.
 
-use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
-use Oro\Bundle\MigrationBundle\Migration\Migration;
-use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+   To achieve this, add a new field `partnerSince` to store the date and time of when a contact joined your network.
+   To add the field, create a migration:
 
-class AddPartnerSinceToOroUser implements Migration
-{
-    #[\Override]
-    public function up(Schema $schema, QueryBag $queries)
-    {
-        $table = $schema->getTable('oro_user');
-        $table->addColumn('partner_since', 'datetime', [
-            'oro_options' => [
-                'extend' => [
-                    'is_extend' => true,
-                    'owner' => ExtendScope::OWNER_CUSTOM,
-                    'nullable' => true,
-                    'on_delete' => 'SET NULL'
+   ```php
+   <?php
+
+   namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_2;
+
+   use Doctrine\DBAL\Schema\Schema;
+   use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+   use Oro\Bundle\MigrationBundle\Migration\Migration;
+   use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+
+   class AddPartnerSinceToOroUser implements Migration
+   {
+       #[\Override]
+       public function up(Schema $schema, QueryBag $queries)
+       {
+           $table = $schema->getTable('oro_user');
+           $table->addColumn('partner_since', 'datetime', [
+               'oro_options' => [
+                   'extend' => [
+                       'is_extend' => true,
+                       'owner' => ExtendScope::OWNER_CUSTOM,
+                       'nullable' => true,
+                       'on_delete' => 'SET NULL'
+                   ],
+                   'entity' => ['label' => 'Partner since']
+               ],
+           ]);
+       }
+   }
+   ```
+
+   #### NOTE
+   Please note that the entity that you add a new field to must have the `#[Config]` attribute
+   and should extend an Extend class.
+
+   The important part in this migration (which is different from common Doctrine migrations) is the `oro_options` key.
+   It is passed through the `options` argument of the `addColumn()` method:
+
+   ```php
+   // ...
+            $table->addColumn('partnerSince', 'datetime', [
+                'oro_options' => [
+                    'extend' => [
+                        'is_extend' => true,
+                        'owner' => ExtendScope::OWNER_CUSTOM,
+                        'nullable' => true,
+                        'on_delete' => 'SET NULL'
+                    ],
                 ],
-                'entity' => ['label' => 'Partner since']
-            ],
-        ]);
-    }
-}
-```
+            ]);
+   // ...
+   ```
 
-#### NOTE
-Please note that the entity that you add a new field to must have the `#[Config]` attribute
-and should extend an Extend class.
+   All options nested under this key are handled outside of the usual Doctrine migration workflow.
 
-The important part in this migration (which is different from common Doctrine migrations) is the `oro_options` key.
-It is passed through the `options` argument of the `addColumn()` method:
+   When the EntityExtendBundle of the OroPlatform finds the `extend` key, it generates an intermediate class
+   with getters and setters for the defined fields, thus making them accessible from every part of the code.
+   The intermediate class is generated automatically based on the configured data when the application cache is warmed up.
 
-```php
-// ...
-         $table->addColumn('partnerSince', 'datetime', [
-             'oro_options' => [
-                 'extend' => [
-                     'is_extend' => true,
-                     'owner' => ExtendScope::OWNER_CUSTOM,
-                     'nullable' => true,
-                     'on_delete' => 'SET NULL'
-                 ],
-             ],
-         ]);
-// ...
-```
+   The `owner` attribute can have the following values:
 
-All options nested under this key are handled outside of the usual Doctrine migration workflow.
+   * `ExtendScope::OWNER_CUSTOM` — The field is user-defined, and the core system should handle how the field appears in grids, forms, etc. (if not configured otherwise).
+   * `ExtendScope::OWNER_SYSTEM`— Nothing is rendered automatically, and the developer must explicitly specify how to show the field in different parts of the system (grids, forms, views, etc.).
 
-When the EntityExtendBundle of the OroPlatform finds the `extend` key, it generates an intermediate class
-with getters and setters for the defined fields, thus making them accessible from every part of the code.
-The intermediate class is generated automatically based on the configured data when the application cache is warmed up.
+   #### NOTE
+   For more default attribute set settings for Extend Entities, see <a href="https://doc.oroinc.com/backend/configuration/annotation/config-field" target="_blank">#[ConfigField]</a>.
 
-The `owner` attribute can have the following values:
+   <a id="book-entities-extended-entities-add-enum-fields"></a>
 
-* `ExtendScope::OWNER_CUSTOM` — The field is user-defined, and the core system should handle how the field appears in grids, forms, etc. (if not configured otherwise).
-* `ExtendScope::OWNER_SYSTEM`— Nothing is rendered automatically, and the developer must explicitly specify how to show the field in different parts of the system (grids, forms, views, etc.).
+   ## Add Enum Option Set Fields
 
-#### NOTE
-For more default attribute set settings for Extend Entities, see <a href="https://doc.oroinc.com/backend/configuration/annotation/config-field" target="_blank">#[ConfigField]</a>.
+   The option set fields can be used to choose one or more options from a predefined set of options.
+   The [Option Set Fields](enums.md#book-entities-extended-entities-enums) section provides detailed information on
+   how to add such fields.
 
-<a id="book-entities-extended-entities-add-enum-fields"></a>
+   <a id="book-entities-extended-entities-add-relationships"></a>
 
-## Add Enum Option Set Fields
+   ## Add Entity Relationships
 
-The option set fields can be used to choose one or more options from a predefined set of options.
-The [Option Set Fields](enums.md#book-entities-extended-entities-enums) section provides detailed information on
-how to add such fields.
+   Adding relationships between entities is a common but, in some cases, complex task.
+   The [Extended Associations](associations.md#book-entities-extended-entities-associations)
+   and [Multi-Target Extended Associations](multi-target-associations.md#book-entities-extended-entities-multi-target-associations)
+   sections provide detailed information on how to add different kinds of relationships.
 
-<a id="book-entities-extended-entities-add-relationships"></a>
+   ## Console Commands
 
-## Add Entity Relationships
+   * Clear cache.
 
-Adding relationships between entities is a common but, in some cases, complex task.
-The [Extended Associations](associations.md#book-entities-extended-entities-associations)
-and [Multi-Target Extended Associations](multi-target-associations.md#book-entities-extended-entities-multi-target-associations)
-sections provide detailed information on how to add different kinds of relationships.
+     Use the `oro:entity-extend:cache:clear` command to clear extended entity cache.
+     ```none
+     php bin/console oro:entity-extend:cache:clear
+     ```
+   * Skip warming up cache.
 
-## Console Commands
+     Use the `--no-warmup` option to skip warming up cache after cleaning:
+     > ```none
+     > php bin/console oro:entity-extend:cache:clear --no-warmup
+     > ```
+   * Warm up cache.
 
-* Clear cache.
+     Use the `oro:entity-extend:cache:warmup` command to warm up extended entity cache and its related caches (Doctrine metadata, Doctrine proxy classes for extended entities, cache of entity aliases).
+     ```none
+     php bin/console oro:entity-extend:cache:warmup
+     ```
 
-  Use the `oro:entity-extend:cache:clear` command to clear extended entity cache.
-  ```none
-  php bin/console oro:entity-extend:cache:clear
-  ```
-* Skip warming up cache.
+     The `--cache-dir` option can be used to override the default cache directory location.
+     ```none
+     php bin/console oro:entity-extend:cache:warmup --cache-dir=<path>
+     ```
+   * Update schema.
 
-  Use the `--no-warmup` option to skip warming up cache after cleaning:
-  > ```none
-  > php bin/console oro:entity-extend:cache:clear --no-warmup
-  > ```
-* Warm up cache.
+     Use the `oro:entity-extend:update-schema` command to update database schema for extend entities.
+     ```none
+     php bin/console oro:entity-extend:update-schema
+     ```
 
-  Use the `oro:entity-extend:cache:warmup` command to warm up extended entity cache and its related caches (Doctrine metadata, Doctrine proxy classes for extended entities, cache of entity aliases).
-  ```none
-  php bin/console oro:entity-extend:cache:warmup
-  ```
+     The `--dry-run` option can be used to print the changes without applying them:
+     ```none
+     php bin/console oro:entity-extend:update --dry-run
+     ```
 
-  The `--cache-dir` option can be used to override the default cache directory location.
-  ```none
-  php bin/console oro:entity-extend:cache:warmup --cache-dir=<path>
-  ```
-* Update schema.
+   #### WARNING
+   Schema changes are permanent and cannot be easily rolled back. We recommend that developers back up data before any database schema change if changes have to be rolled back.
 
-  Use the `oro:entity-extend:update-schema` command to update database schema for extend entities.
-  ```none
-  php bin/console oro:entity-extend:update-schema
-  ```
+   #### NOTE
+   Business Tip
 
-  The `--dry-run` option can be used to print the changes without applying them:
-  ```none
-  php bin/console oro:entity-extend:update --dry-run
-  ```
+   Looking for a way to leverage online commerce? Here’s everything you need to know about a <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B online marketplace</a> and what makes it work.
 
-#### WARNING
-Schema changes are permanent and cannot be easily rolled back. We recommend that developers back up data before any database schema change if changes have to be rolled back.
+   * [Option Enum Set Fields](enums.md)
+   * [Extended Associations](associations.md)
+   * [Multi-Target Extended Associations](multi-target-associations.md)
+   * [Serialized Fields](serialized-fields.md)
+   * [Validation for Extended Fields](validation.md)
+   * [Define Custom Form Type for Fields](define-custom-form-type.md)
+   * [Extending the Extended Field Rendering](extending-rendering.md)
 
-* [Option Enum Set Fields](enums.md)
-* [Extended Associations](associations.md)
-* [Multi-Target Extended Associations](multi-target-associations.md)
-* [Serialized Fields](serialized-fields.md)
-* [Validation for Extended Fields](validation.md)
-* [Define Custom Form Type for Fields](define-custom-form-type.md)
-* [Extending the Extended Field Rendering](extending-rendering.md)
-
-<!-- Frontend -->
+   <!-- Frontend -->

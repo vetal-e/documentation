@@ -24,6 +24,8 @@ It has four main options:
 
 An example of a simple configurable permission configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/configurable_permissions.yml
 ```yaml
 oro_configurable_permissions:
     acme_favorite_permission:                                       # configurable permission name, will be used by filter

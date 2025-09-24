@@ -73,6 +73,10 @@ Recommended and supported browsers are:
 #### NOTE
 Any browser needs to have cookies and JavaScript turned on.
 
+#### NOTE
+Business Tip
+
+Want to take advantage of the latest trend in digital commerce? Explore the benefits of a <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B online marketplace</a> and successful marketplace examples.
 <!-- Frontend -->
 
 **See Also**

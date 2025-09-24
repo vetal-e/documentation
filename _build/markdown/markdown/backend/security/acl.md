@@ -91,6 +91,8 @@ Remember that once the entity is created, you can no longer change its ownership
 
 To be able to protect access to your entities, you first have to configure which permissions can be granted to a user to them. Use the `security` scope in the `defaultValues` section of the `#[Config]` attribute:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Favorite.php
 ```php
 #[Config(
     defaultValues: [
@@ -557,4 +559,8 @@ oro_organization_pro:
         - Acme\Bundle\DemoBundle\Security\AcmeCustomToken
 ```
 
+#### NOTE
+Business Tip
+
+Discover how <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing</a> improves operations, customer experiences, and sales by reading our guide.
 <!-- Frontend -->

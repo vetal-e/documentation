@@ -97,6 +97,8 @@ Alternate example:
 Create a template unit file to allow systemd to address multiple units from a single configuration file.
 For example, name it oro-message-queue@.service and put it into /lib/systemd/system/ folder.
 
+#### NOTE
+/lib/systemd/system/oro-message-queue@.service
 ```none
 [Unit]
 Description=ORO AMQP consumer oro.%i

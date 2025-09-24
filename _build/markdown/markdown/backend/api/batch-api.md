@@ -142,4 +142,8 @@ knp_gaufrette:
 
 You can find more examples in <a href="https://github.com/KnpLabs/KnpGaufretteBundle/blob/master/README.md" target="_blank">KnpGaufretteBundle documentation</a>.
 
+#### NOTE
+Business Tip
+
+Explore our guide to learn how <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing industry</a> improves operations, customer experiences, and sales.
 <!-- Frontend -->

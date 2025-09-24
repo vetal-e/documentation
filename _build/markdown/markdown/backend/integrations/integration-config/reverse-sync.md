@@ -18,6 +18,8 @@ For now only non-composite identifiers are supported.
 
 **Example:**
 
+#### NOTE
+batch_job.yml
 ```yaml
 example_export:
     title: Job title here

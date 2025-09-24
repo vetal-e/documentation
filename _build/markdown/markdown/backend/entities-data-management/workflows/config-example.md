@@ -161,6 +161,8 @@ class ConnectedTransition extends TransitionServiceAbstract
 }
 ```
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/services.yml
 ```yaml
 services:
         # ...

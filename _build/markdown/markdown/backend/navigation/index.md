@@ -1,3 +1,4 @@
+#### NOTE
 <a id="doc-managing-app-menu"></a>
 
 <a id="doc-create-and-customize-app-menu"></a>
@@ -23,6 +24,8 @@ The <a href="https://github.com/oroinc/platform/tree/master/src/Oro/Bundle/Navig
 
 You can create new navigation under the `items` key. Each item must be identified by a unique name which acts as a key in the menu configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/navigation.yml
 ```yaml
  menu_config:
      items:

@@ -20,6 +20,8 @@ Let’s take a look at an example of a one-way integration between a source syst
 
 For this purpose, we will develop a basic class capable of executing POST requests to the Oro JSON API.
 
+#### NOTE
+oro_api_client.py
 ```python
 import simplejson
 import requests

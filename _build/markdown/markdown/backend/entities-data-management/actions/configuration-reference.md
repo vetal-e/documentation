@@ -19,6 +19,8 @@ Configuration must be placed in the Resources/config/oro/actions.yml file. For e
 
 **Example - actions.yml**
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/actions.yml
 ```yaml
 operations: # root elements
     acme_demo_operation_base: # name of operation

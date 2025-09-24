@@ -13,6 +13,8 @@ In Symfony applications, you register your and all the third-party bundles from 
 
 This file must contain a list of bundle classes to initialize under the `bundles` key. Usually, it is only a one class name:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/bundles.yml
 ```yaml
  bundles:
      - Acme\Bundle\DemoBundle\AcmeDemoBundle
@@ -24,6 +26,12 @@ Optionally, you can specify a priority. The priority defines the order in which 
  bundles:
      - { name: Acme\Bundle\DemoBundle\AcmeDemoBundle, priority: 10 }
 ```
+
+#### NOTE
+A higher priority does not mean that one bundle is loaded before another bundle with a lower priority. Instead, lower prioritized bundles are loaded first.
+
+#### NOTE
+The default priority for all bundles is 0.
 
 ## Routing Configuration
 

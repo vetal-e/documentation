@@ -70,4 +70,14 @@ server {
 * Replace **<application-root-folder>** with the absolute path to the Oro application.
 * Replace **<your-domain-name>** with the configured domain name used for the Oro application.
 
+#### NOTE
+Make sure that the web server user has permissions for the log directory of the application.
+
+More details on the file permissions configuration are available
+<a href="https://symfony.com/doc/6.4/setup/file_permissions.html" target="_blank">in the official Symfony documentation</a>.
+
+#### NOTE
+Business Tip
+
+Thinking of going digital? Explore our thorough platform comparison guide to narrow down your selection of <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">B2B eCommerce solutions</a>.
 <!-- Frontend -->

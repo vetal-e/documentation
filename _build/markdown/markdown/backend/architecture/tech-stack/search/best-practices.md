@@ -16,6 +16,8 @@ If you want to create a repository, create a new class extended from the appropr
 
 Here is an example of the search repository for the standard index type and its definition:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Search/QuestionSearchRepository.php
 ```php
 <?php
 

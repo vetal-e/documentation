@@ -35,6 +35,11 @@ Below is a table summarizing HTTP methods by its idempotency and safety:
 | DELETE        | yes          | no     |
 | PATCH         | no           | no     |
 
+#### NOTE
+Business Tip
+
+Researching <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">B2B eCommerce platforms</a>? Explore our platform comparison guide to help you make an informed decision.
+
 <a id="web-services-api-http-methods-get"></a>
 
 ## GET
@@ -55,6 +60,9 @@ POST to the parent and the service takes care of associating the new resource wi
 ID (new resource URI), etc.
 
 On successful creation, HTTP response code 201 is returned.
+
+#### NOTE
+POST is not a safe operation. Making two identical POST requests will most likely result in two resources containing the same information but with different identifiers.
 
 #### NOTE
 It is possible to create both primary and related API resources via a single API request. For details, see the

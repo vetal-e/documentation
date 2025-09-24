@@ -80,3 +80,8 @@ Backend Developer Guide is an essential resource for developers that provides co
    <li><a class="tag-very-important" href="api/">API Developer Guide</a></li>
    <li><a class="" href="organization-types/">Organization Types</a></li>
 </ul>
+
+#### NOTE
+Business Tip
+
+Narrow down your choice of <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">B2B eCommerce software</a> with our comprehensive platform comparison guide.

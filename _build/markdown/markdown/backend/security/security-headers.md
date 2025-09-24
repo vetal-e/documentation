@@ -20,6 +20,8 @@ This bundle allows to define the following security headers:
 
 In addition to a wide range of security headers supported by the NelmioSecurityBundle, OroSecurityBundle provides ability to set the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy" target="_blank">Permissions-Policy</a> header.
 
+#### NOTE
+config/config.yml
 ```yaml
  oro_security:
      permissions_policy:

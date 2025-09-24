@@ -85,4 +85,8 @@ This deployment is NOT intended for a production environment.
 One image is used to run containers in several roles: web server, php-fpm, consumer, WebSocket server, and cron service.
 All these services must be running, and the PostgreSQL database must be prepared for a full-fledged application.
 
+#### NOTE
+Business Tip
+
+Technologies are at the forefront of digital change in important sectors like manufacturing. Discover the benefits of <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation for manufacturing companies</a>.
 <!-- Frontend -->

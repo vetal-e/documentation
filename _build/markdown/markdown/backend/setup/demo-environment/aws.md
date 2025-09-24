@@ -118,4 +118,8 @@ With the help of the EC2 back-office, you can:
 
 For detailed information about EC2 instances management features, please see the AWS guide <a href="https://aws.amazon.com/ec2/getting-started/" target="_blank">Getting Started with Amazon EC2 </a>.
 
+#### NOTE
+Business Tip
+
+Explore <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation examples in manufacturing</a> to learn how digitization improves manufacturing processes, customer experiences, and sales.
 <!-- Frontend -->

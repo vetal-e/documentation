@@ -55,6 +55,8 @@ oro_message_queue:
 
 Example how to change redelivery delay time:
 
+#### NOTE
+config/config_prod.yml
 ```yaml
  oro_message_queue:
      client:

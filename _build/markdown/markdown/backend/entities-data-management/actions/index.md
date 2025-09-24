@@ -18,6 +18,8 @@ After clicking the button, all the performed operations (and underlined actions)
 All operations can be described in the `actions.yml` configuration file under the corresponding bundle in the config/oro resource directory.
 Below is an example of a simple operation configuration that performs an execution logic with the MyEntity entity.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/actions.yml
 ```yaml
 operations: # root elements
     acme_demo_operation:                                # operation name

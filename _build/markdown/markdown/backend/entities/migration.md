@@ -29,6 +29,24 @@ When everything is displayed as expected, update the database schema by passing 
 php bin/console doctrine:schema:update --force
 ```
 
+#### NOTE
+Doctrine caches mapping metadata. If the doctrine:schema:update command does not recognize your changes to the entity mapping, clear the metadata cache manually and update the schema again:
+
+# clear the metadata cache
+php bin/console doctrine:cache:clear-metadata
+
+# check the schema change queries to be executed
+php bin/console doctrine:schema:update --dump-sql
+
+# apply the schema changes to the database
+php bin/console doctrine:schema:update --force
+
+#### NOTE
+Do not use the doctrine:schema:update command with your production database. Instead,
+create migrations to update the schema of your database. You can read more about using
+migrations in the Update Database Schema section. To run migrations
+and emulate the complete migration process, use the oro:platform:update command.
+
 <a id="installer-generate"></a>
 
 ### Generate an Installer
@@ -83,6 +101,8 @@ For example, let’s assume we have migrations v1_0, v1_1, v1_2, v1_3 and instal
 
 Below is an example of an install migration file:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/AcmeDemoBundleInstaller.php
 ```php
 namespace Acme\Bundle\DemoBundle\Migrations\Schema;
 
@@ -402,4 +422,8 @@ The `Oro\Bundle\MigrationBundle\Migration\Loader\MigrationsLoader` dispatches tw
 
 Migrations registered in the *oro_migration.pre_up* event are executed before the *main* migrations, while migrations registered in the *oro_migration.post_up* event are executed after the *main* migrations have been processed.
 
+#### NOTE
+Business Tip
+
+<a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">Digital transformation</a> has been fueled by technologies in core industries such as manufacturing. Read more about the role of eCommerce in the technological age of manufacturing.
 <!-- Frontend -->

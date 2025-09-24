@@ -8,6 +8,8 @@ Usually, an administrator provides a predefined set of associations between the 
 
 The following example illustrates how to do it:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/v1_10/AcmeDemoBundle.php
 ```php
 <?php
 

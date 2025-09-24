@@ -39,6 +39,9 @@ bundles:
 #### HINT
 To fully enable a bundle, you need to regenerate the application cache. However, to save time, you can do it after creation of the payment integration.
 
+#### NOTE
+All the files and subdirectories mentioned in the following sections of this topic are to be added to the /src/Acme/Bundle/CollectOnDeliveryBundle/ directory of your application (referred to as <bundle_root>).
+
 ## Create a Payment Integration
 
 ### Create an Entity to Store the Payment Method Settings

@@ -18,6 +18,8 @@ possible to add permission globally for some groups (applications); all required
 
 An example of a simple permission configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/permissions.yml
 ```yaml
 oro_permissions:
     PERMISSION1:                                                    # permission name (should start with a letter, digit or underscore and only contain

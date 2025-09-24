@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-akeneo-integration"></a>
 
 # Akeneo Integration

@@ -8,6 +8,9 @@
 
 This guide explains how to upgrade Oro application to the next version in a development environment.
 
+#### NOTE
+If you are looking for specific instructions on upgrading the source code itself, please refer to our detailed guide on Upgrading the Source Code to v6.1.
+
 An absolute path to the directory where an application is installed will be used in the guide and will
 be referred to as **<application-root-folder>** further in this topic.
 
@@ -117,4 +120,8 @@ To retrieve a new version and upgrade your Oro application instance, execute the
 
 * [Deploy Application Changes to a New Environment (Testing or Production)](deploy-the-update.md#deploy-the-update).
 
+#### NOTE
+Business Tip
+
+Looking to harness the new trend of digital commerce? Check out our guide on a <a href="https://oroinc.com/oromarketplace/b2b-marketplace/" target="_blank">B2B marketplace platform</a>.
 <!-- Frontend -->

@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-guide-setup"></a>
 
 # Application Setup and Configuration
@@ -106,3 +107,8 @@
     <div class="showcase-section-footer">
     </div>
 </div>
+
+#### NOTE
+Business Tip
+
+Explore our <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">B2B eCommerce platform comparison</a> page to comprehensively review and narrow down your options.

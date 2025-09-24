@@ -25,6 +25,8 @@ This can help avoid naming conflicts or make entity aliases more readable or use
 
 You can explicitly define aliases for a specific entity in the `entity_aliases` section of `Resources/config/oro/entity.yml`:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/entity.yml
 ```yaml
 oro_entity:
   entity_aliases:

@@ -12,6 +12,10 @@ By default, the API feature is disabled for back-office and storefront. For the 
 on the global and organization levels in the system configuration. For the storefront, you can enable API
 on the global, organization, and website levels.
 
+#### NOTE
+Business Tip
+
+Explore our guide on eCommerce to find out <a href="https://oroinc.com/b2b-ecommerce/what-is-b2b-ecommerce/" target="_blank">B2B ecommerce meaning</a>, benefits, and examples.
 <!-- fa-bars = fa-navicon -->
 <!-- Ic Tiles is used as Set As Default in saved views, and as tiles in display layout options -->
 <!-- IcPencil refers to Rename in Commerce and Inline Editing in CRM -->

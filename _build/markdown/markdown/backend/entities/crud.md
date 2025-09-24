@@ -16,6 +16,8 @@ To let the users create new questions and edit existing ones, follow these steps
 First, you need to create a form type that makes it possible to let the user enter all the data
 needed to describe a question:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Form/Type/QuestionType.php
 ```php
 namespace Acme\Bundle\DemoBundle\Form\Type;
 

@@ -19,6 +19,8 @@ the following combinations of entities:
 
 ## Many-To-One, Unidirectional
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Schema/v1_5/AddDocument1RelationToUser.php
 ```php
 namespace Acme\Bundle\DemoBundle\Migrations\Schema\v1_5;
 

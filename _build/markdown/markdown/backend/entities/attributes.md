@@ -14,6 +14,8 @@ You can enable attributes for any extendable and configurable entity by doing th
 
 The following example illustrates enabling attributes for the *Document* entity:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Entity/Document.php
 ```php
 /**
  * ORM Entity Document.

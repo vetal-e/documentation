@@ -37,662 +37,669 @@ You need to configure the following parameters for the testing environment:
 2. Set up host, port, and authentication parameters for the database and the mail server in the .env-app.test.local file:
 
    For example:
+
+   #### NOTE
+   .env-app.test.local
    ```bash
     ORO_DB_DSN=postgresql://root@127.0.0.1/crm_test
     ORO_MAILER_DSN=smtp://127.0.0.1
    ```
-3. Install the application in the test environment:
-   ```none
-   $ php bin/console oro:install --env=test
-   ```
-
-   #### HINT
-   As functional tests rely on exact values, test environments do not support install command options. If you need to modify these options, you’ll need to adjust the `oro_test_framework.install_options` configuration to closely match your desired option.
-   Configuration file example:
-   ```yaml
-   oro_test_framework:
-     install_options:
-       user_name: admin
-       user_email: admin@example.com
-       user_firstname: John
-       user_lastname: Doe
-       user_password: admin
-       sample_data: false
-       organization_name: OroInc
-       application_url: http://localhost/
-       skip_translations: true
-       timeout: 600
-       language: en
-       formatting_code: en_US
-   ```
-
-   #### NOTE
-   When the following options are not provided, they are set up automatically for the `test` environment:
-   : * –user-name=admin
-     * –user-email=admin@example.com
-     * –user-firstname=John
-     * –user-lastname=Doe
-     * –user-password=admin
-     * –sample-data=n
-     * –organization-name=OroInc
-     * –application-url=http://localhost/
-     * –language=en
-     * –formatting-code=en_US
-     * –skip-translations
-     * –no-interaction
-     * –timeout=600
-
-   The database structure is set up during installation, and standard fixtures are loaded.
-
-   #### HINT
-   See the oro:install command reference for more information.
-4. Run tests using phpunit with an appropriate –testsuite option (unit or functional).
-   ```none
-   $ php bin/phpunit -c ./ --testsuite=functional
-   ```
-
-   ```none
-   $ php bin/phpunit -c ./ --testsuite=unit
-   ```
-
-### Database Isolation
-
-The `@dbIsolationPerTest` annotation adds a transaction that will be performed before a test starts and is rolled back when a test ends.
-
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- /**
-  * @dbIsolationPerTest
-  */
- class FooBarTest extends WebTestCase
- {
-     // ...
- }
-```
-
-### Loading Data Fixtures
-
-Use the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::loadFixtures` method to load a fixture in a test:
-
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class FooBarTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         $this->initClient(); // must be called before!
-
-         // loading fixtures will be executed once, use the second parameter
-         // $force = true to force the loading
-         $this->loadFixtures([
-             'Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadFooData',
-             '@OroFooBarBundle/Tests/Functional/DataFixtures/bar_data.yml',
-         ]);
-     }
-
-     // ...
- }
-```
-
-A fixture must be either a class name that implements `Doctrine\Common\DataFixtures\FixtureInterface` or a path to the <a href="https://github.com/nelmio/alice" target="_blank">nelmio/alice</a> file.
-
-An example of a fixture:
-
-```php
- namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
-
- use Doctrine\Common\DataFixtures\AbstractFixture;
- use Doctrine\Persistence\ObjectManager;
- use Oro\Bundle\FooBarBundle\Entity\FooEntity;
-
- class LoadFooData extends AbstractFixture
- {
-     public function load(ObjectManager $manager)
-     {
-         $entity = new FooEntity();
-         $manager->persist($entity);
-         $manager->flush();
-     }
- }
-```
-
-```yaml
-     Oro\Bundle\FooBarBundle\Entity\BarEntity:
-         bar:
-             name: test
-```
 
-You can also implement the `Doctrine\Common\DataFixtures\DependentFixtureInterface` which enables you to load fixtures depending on other loaded fixtures:
+   3. Install the application in the test environment:
+      ```none
+      $ php bin/console oro:install --env=test
+      ```
+
+      #### HINT
+      As functional tests rely on exact values, test environments do not support install command options. If you need to modify these options, you’ll need to adjust the `oro_test_framework.install_options` configuration to closely match your desired option.
+      Configuration file example:
+      ```yaml
+      oro_test_framework:
+        install_options:
+          user_name: admin
+          user_email: admin@example.com
+          user_firstname: John
+          user_lastname: Doe
+          user_password: admin
+          sample_data: false
+          organization_name: OroInc
+          application_url: http://localhost/
+          skip_translations: true
+          timeout: 600
+          language: en
+          formatting_code: en_US
+      ```
+
+      #### NOTE
+      When the following options are not provided, they are set up automatically for the `test` environment:
+      : * –user-name=admin
+        * –user-email=admin@example.com
+        * –user-firstname=John
+        * –user-lastname=Doe
+        * –user-password=admin
+        * –sample-data=n
+        * –organization-name=OroInc
+        * –application-url=http://localhost/
+        * –language=en
+        * –formatting-code=en_US
+        * –skip-translations
+        * –no-interaction
+        * –timeout=600
+
+      The database structure is set up during installation, and standard fixtures are loaded.
+
+      #### HINT
+      See the oro:install command reference for more information.
+   4. Run tests using phpunit with an appropriate –testsuite option (unit or functional).
+
+      #### NOTE
+      Currently, running different automated tests together is not supported. Therefore, it is strongly not recommended to run unit and functional tests side by side in one run, as this produces errors. Unit tests create mock objects that later interfere with functional test execution and create unnecessary ambiguity. It is possible to disable unit tests on test startup with the help of the test suite option:
+      ```none
+      $ php bin/phpunit -c ./ --testsuite=functional
+      ```
+
+      ```none
+      $ php bin/phpunit -c ./ --testsuite=unit
+      ```
+
+      ### Database Isolation
+
+      The `@dbIsolationPerTest` annotation adds a transaction that will be performed before a test starts and is rolled back when a test ends.
+
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       /**
+        * @dbIsolationPerTest
+        */
+       class FooBarTest extends WebTestCase
+       {
+           // ...
+       }
+      ```
+
+      ### Loading Data Fixtures
+
+      Use the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::loadFixtures` method to load a fixture in a test:
+
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               $this->initClient(); // must be called before!
+
+               // loading fixtures will be executed once, use the second parameter
+               // $force = true to force the loading
+               $this->loadFixtures([
+                   'Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadFooData',
+                   '@OroFooBarBundle/Tests/Functional/DataFixtures/bar_data.yml',
+               ]);
+           }
+
+           // ...
+       }
+      ```
+
+      A fixture must be either a class name that implements `Doctrine\Common\DataFixtures\FixtureInterface` or a path to the <a href="https://github.com/nelmio/alice" target="_blank">nelmio/alice</a> file.
+
+      An example of a fixture:
+
+      ```php
+       namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
+
+       use Doctrine\Common\DataFixtures\AbstractFixture;
+       use Doctrine\Persistence\ObjectManager;
+       use Oro\Bundle\FooBarBundle\Entity\FooEntity;
+
+       class LoadFooData extends AbstractFixture
+       {
+           public function load(ObjectManager $manager)
+           {
+               $entity = new FooEntity();
+               $manager->persist($entity);
+               $manager->flush();
+           }
+       }
+      ```
+
+      ```yaml
+           Oro\Bundle\FooBarBundle\Entity\BarEntity:
+               bar:
+                   name: test
+      ```
 
-```php
- namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
+      You can also implement the `Doctrine\Common\DataFixtures\DependentFixtureInterface` which enables you to load fixtures depending on other loaded fixtures:
 
- use Doctrine\Common\DataFixtures\DependentFixtureInterface;
- use Doctrine\Common\DataFixtures\AbstractFixture;
- use Doctrine\Persistence\ObjectManager;
+      ```php
+       namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
 
- class LoadFooData extends AbstractFixture implements DependentFixtureInterface
- {
-     public function load(ObjectManager $manager)
-     {
-         // load fixtures
-     }
+       use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+       use Doctrine\Common\DataFixtures\AbstractFixture;
+       use Doctrine\Persistence\ObjectManager;
 
-     public function getDependencies()
-     {
-         return ['Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadBarData'];
-     }
- }
-```
+       class LoadFooData extends AbstractFixture implements DependentFixtureInterface
+       {
+           public function load(ObjectManager $manager)
+           {
+               // load fixtures
+           }
 
-Further, you can use reference-specific entities from fixtures, e.g.:
+           public function getDependencies()
+           {
+               return ['Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadBarData'];
+           }
+       }
+      ```
 
-```php
-namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
+      Further, you can use reference-specific entities from fixtures, e.g.:
 
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+      ```php
+      namespace Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures;
 
-use Oro\Bundle\FooBarBundle\Entity\FooEntity;
+      use Doctrine\Persistence\ObjectManager;
+      use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+      use Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LoadFooData extends AbstractFixture implements DependentFixtureInterface
-{
-    public function load(ObjectManager $manager)
-    {
-        $entity = new FooEntity();
-        $manager->persist($entity);
-        $manager->flush();
+      use Oro\Bundle\FooBarBundle\Entity\FooEntity;
 
-        $this->addReference('my_entity', $entity);
-    }
-
-    public function getDependencies()
-    {
-        return ['Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadBarData'];
-    }
-}
-```
+      class LoadFooData extends AbstractFixture implements DependentFixtureInterface
+      {
+          public function load(ObjectManager $manager)
+          {
+              $entity = new FooEntity();
+              $manager->persist($entity);
+              $manager->flush();
 
-Now, you can reference the fixture by the configured name in your test:
+              $this->addReference('my_entity', $entity);
+          }
+
+          public function getDependencies()
+          {
+              return ['Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadBarData'];
+          }
+      }
+      ```
 
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
+      Now, you can reference the fixture by the configured name in your test:
 
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class FooBarTest extends WebTestCase
- {
-     protected $entity;
-
-     protected function setUp()
-     {
-         $this->initClient();
-         $this->loadFixtures('Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadFooData');
-         $this->entity = $this->getReference('my_entity');
-     }
-
-     // ...
- }
-```
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
 
-#### HINT
-By default, the entity manager is cleared after loading each fixture. To prevent clearing a fixture can implement `Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\InitialFixtureInterface`.
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected $entity;
+
+           protected function setUp()
+           {
+               $this->initClient();
+               $this->loadFixtures('Oro\Bundle\FooBarBundle\Tests\Functional\DataFixtures\LoadFooData');
+               $this->entity = $this->getReference('my_entity');
+           }
+
+           // ...
+       }
+      ```
 
-#### HINT
-Sometimes you need a reference for an admin organization, a user, or a business unit. You can use the following fixtures to load them:
+      #### HINT
+      By default, the entity manager is cleared after loading each fixture. To prevent clearing a fixture can implement `Oro\Bundle\TestFrameworkBundle\Test\DataFixtures\InitialFixtureInterface`.
 
-- `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization`
-- `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser`
-- `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadBusinessUnit`
+      #### HINT
+      Sometimes you need a reference for an admin organization, a user, or a business unit. You can use the following fixtures to load them:
 
-## Writing Functional Tests
+      - `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadOrganization`
+      - `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser`
+      - `Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadBusinessUnit`
 
-To create a functional test case:
-
-1. Extend the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase` class
-2. Prepare the test client (an instance of the `Oro\Bundle\TestFrameworkBundle\Test\Client` class)
-3. Prepare fixtures (optional)
-4. Prepare container (optional)
-5. Call test functionality
-6. Verify the result
-
-### Functional Tests for Controllers
-
-#### The Control Flow
-
-A functional test for a controller consists of a couple of steps:
-
-1. Make a request
-2. Test the response
-3. Click on a link or submit a form
-4. Test the response
-5. Rinse and repeat
-
-## Prepare Client Examples
-
-Simple initialization works for testing commands and services when authentication is not required.
-
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class FooBarTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         $this->initClient(); // initialization occurres only once per test class
-         // now varialbe $this->client is available
-     }
-     // ...
- }
-```
-
-Initialization with custom AppKernel options:
-
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class FooBarTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         // first array is Kernel options
-         $this->initClient(['debug' => false]);
-     }
-     // ...
- }
-```
-
-Initialization with authentication:
-
-```php
- namespace Oro\Bundle\FooBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class FooBarTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         // second array is service options
-         // this example will create client with server options ['PHP_AUTH_USER' => 'admin@example.com', 'PHP_AUTH_PW' => 'admin']
-         // make sure you loaded fixture with test user
-         // bin/console doctrine:fixture:load --no-debug --append --no-interaction --env=test --fixtures src/Oro/src/Oro/Bundle/TestFrameworkBundle/Fixtures
-         $this->initClient([], $this->generateBasicAuthHeader());
-
-         // init client with custom username and password
-         $this->initClient([], $this->generateBasicAuthHeader('custom_username', 'custom_password'));
-     }
-     // ...
- }
-```
-
-## Types of Functional Tests
-
-### Testing Controllers
-
-Have a look at an example of a controller test from an Oro application:
-
-```php
- namespace Oro\Bundle\TaskBundle\Tests\Functional\Controller;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- /**
-  * @outputBuffering enabled
-  */
- class TaskControllersTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         $this->initClient([], $this->generateBasicAuthHeader());
-     }
-
-     public function testCreate()
-     {
-         $crawler = $this->client->request('GET', $this->getUrl('orocrm_task_create'));
-
-         $form = $crawler->selectButton('Save and Close')->form();
-         $form['orocrm_task[subject]'] = 'New task';
-         $form['orocrm_task[description]'] = 'New description';
-         $form['orocrm_task[dueDate]'] = '2014-03-04T20:00:00+0000';
-         $form['orocrm_task[owner]'] = '1';
-         $form['orocrm_task[reporter]'] = '1';
-
-         $this->client->followRedirects(true);
-         $crawler = $this->client->submit($form);
-         $result = $this->client->getResponse();
-         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-         $this->assertContains('Task saved', $crawler->html());
-     }
-
-     /**
-      * @depends testCreate
-      */
-     public function testUpdate()
-     {
-         $response = $this->client->requestGrid(
-             'tasks-grid',
-             ['tasks-grid[_filter][reporterName][value]' => 'John Doe']
-         );
-
-         $result = $this->getJsonResponseContent($response, 200);
-         $result = reset($result['data']);
-
-         $crawler = $this->client->request(
-             'GET',
-             $this->getUrl('orocrm_task_update', ['id' => $result['id']])
-         );
-
-         $form = $crawler->selectButton('Save and Close')->form();
-         $form['orocrm_task[subject]'] = 'Task updated';
-         $form['orocrm_task[description]'] = 'Description updated';
-
-         $this->client->followRedirects(true);
-         $crawler = $this->client->submit($form);
-         $result = $this->client->getResponse();
-
-         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-         $this->assertContains('Task saved', $crawler->html());
-     }
-
-     /**
-      * @depends testUpdate
-      */
-     public function testView()
-     {
-         $response = $this->client->requestGrid(
-             'tasks-grid',
-             ['tasks-grid[_filter][reporterName][value]' => 'John Doe']
-         );
-
-         $result = $this->getJsonResponseContent($response, 200);
-         $result = reset($result['data']);
-
-         $this->client->request(
-             'GET',
-             $this->getUrl('orocrm_task_view', ['id' => $result['id']])
-         );
-         $result = $this->client->getResponse();
-
-         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-         $this->assertContains('Task updated - Tasks - Activities', $result->getContent());
-     }
-
-     /**
-      * @depends testUpdate
-      */
-     public function testIndex()
-     {
-         $this->client->request('GET', $this->getUrl('orocrm_task_index'));
-         $result = $this->client->getResponse();
-         $this->assertHtmlResponseStatusCodeEquals($result, 200);
-         $this->assertContains('Task updated', $result->getContent());
-     }
- }
-```
-
-#### Testing ACLs in a Controller
-
-In this example, a user without sufficient permissions is trying to access a controller action. The `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::assertHtmlResponseStatusCodeEquals` method is used to ensure that access to the requested resource is denied for the user:
-
-```php
- namespace Oro\Bundle\UserBundle\Tests\Functional\Controller;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
- use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
-
- /**
-  * @outputBuffering enabled
-  */
- class UsersTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         $this->initClient();
-         $this->loadFixtures([LoadUserData::class]);
-     }
-
-     public function testUsersIndex()
-     {
-         $this->client->request(
-             'GET',
-             $this->getUrl('oro_user_index'),
-             [],
-             [],
-             $this->generateBasicAuthHeader(LoadUserData::USER_NAME, LoadUserData::USER_PASSWORD)
-         );
-         $result = $this->client->getResponse();
-         $this->assertHtmlResponseStatusCodeEquals($result, 403);
-     }
-
-     public function testGetUsersAPI()
-     {
-         $this->client->request(
-             'GET',
-             $this->getUrl('oro_api_get_users'),
-             ['limit' => 100],
-             [],
-             $this->generateApiAuthHeader(LoadUserData::USER_NAME)
-         );
-         $result = $this->client->getResponse();
-         $this->assertJsonResponseStatusCodeEquals($result, 403);
-     }
- }
-```
-
-Here is an example of a fixture that adds a user without permissions:
-
-```php
- namespace Oro\Bundle\UserBundle\Tests\Functional\DataFixtures;
-
- use Doctrine\Common\DataFixtures\AbstractFixture;
- use Doctrine\Persistence\ObjectManager;
- use Oro\Bundle\UserBundle\Entity\Role;
- use Symfony\Component\DependencyInjection\ContainerAwareInterface;
- use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-
- class LoadUserData extends AbstractFixture implements ContainerAwareInterface
- {
-     use ContainerAwareTrait;
-
-     public const USER_NAME = 'user_wo_permissions';
-     public const USER_API_KEY = 'user_api_key';
-     public const USER_PASSWORD = 'user_password';
-
-     #[\Override]
-     public function load(ObjectManager $manager): void
-     {
-         /** @var \Oro\Bundle\UserBundle\Entity\UserManager $userManager */
-         $userManager = $this->container->get('oro_user.manager');
-
-         // Find role for user to able to authenticate in test.
-         // You can use any available role that you want dependently on test logic.
-         $role = $manager->getRepository(Role::class)
-             ->findOneBy(['role' => 'IS_AUTHENTICATED_ANONYMOUSLY']);
-
-         // Creating new user
-         $user = $userManager->createUser();
-
-         // Creating user
-         $user
-             ->setUsername(self::USER_NAME)
-             ->setPlainPassword(self::USER_PASSWORD) // This value is referenced in testUsersIndex method
-             ->setFirstName('Simple')
-             ->setLastName('User')
-             ->addRole($role)
-             ->setEmail('test@example.com')
-             ->setSalt('');
-
-         // Handle password encoding
-         $userManager->updatePassword($user);
-
-         $manager->persist($user);
-         $manager->flush();
-     }
- }
-```
-
-### Testing Commands
-
-When OroPlatform is installed, you can test commands by using the `runCommand()` method from the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase` class. This method executes a command with given parameters and returns its output as a string. For example, see what the test for the `Oro\Bundle\SearchBundle\EventListener\UpdateSchemaDoctrineListener` class from the SearchBundle looks like:
-
-```php
- namespace Oro\Bundle\SearchBundle\Tests\Functional\EventListener;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
- class UpdateSchemaListenerTest extends WebTestCase
- {
-     protected function setUp()
-     {
-         $this->initClient();
-     }
-
-     /**
-      * @dataProvider commandOptionsProvider
-      */
-     public function testCommand($commandName, array $params, $expectedContent)
-     {
-         $result = $this->runCommand($commandName, $params);
-         $this->assertContains($expectedContent, $result);
-     }
-
-     public function commandOptionsProvider()
-     {
-         return [
-             'otherCommand' => [
-                 'commandName'     => 'doctrine:mapping:info',
-                 'params'          => [],
-                 'expectedContent' => 'OK'
-             ],
-             'commandWithoutOption' => [
-                 'commandName'     => 'doctrine:schema:update',
-                 'params'          => [],
-                 'expectedContent' => 'Please run the operation by passing one - or both - of the following options:'
-             ],
-             'commandWithAnotherOption' => [
-                 'commandName'     => 'doctrine:schema:update',
-                 'params'          => ['--dump-sql' => true],
-                 'expectedContent' => 'ALTER TABLE'
-             ],
-             'commandWithForceOption' => [
-                 'commandName'     => 'doctrine:schema:update',
-                 'params'          => ['--force' => true],
-                 'expectedContent' => 'Schema update and create index completed'
-             ]
-         ];
-     }
- }
-```
-
-#### SEE ALSO
-Read <a href="https://symfony.com/doc/master/components/console/introduction.html#testing-commands" target="_blank">Testing Commands</a> in the official documentation for more information on how to test commands in a Symfony application.
-
-### Testing Services or Repositories
-
-To test services or repositories, you can access the service container through the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::getContainer` method:
-
-```php
- namespace Oro\Bundle\FooBarBundle\Tests\Functional;
-
- use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
- use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadFooBarData;
-
- class FooBarTest extends WebTestCase
- {
-     protected $repositoryOrService;
-
-     protected function setUp()
-     {
-         $this->initClient();
-         $this->loadFixtures([LoadFooBarData::class]);
-         $this->repositoryOrService = $this->getContainer()->get('repository_or_service_id');
-     }
-
-     public function testMethod($commandName, array $params, $expectedContent)
-     {
-         $expected = 'test';
-         $this->assertEquals($expected, $this->repositoryOrService->callTestMethod());
-     }
- }
-```
-
-## Functional Test Example
-
-This is an example of how you can write an integration test for a class that uses Doctrine ORM without mocking its classes and using real Doctrine services:
-
-```php
-namespace Oro\Bundle\BatchBundle\Tests\Functional\ORM\QueryBuilder;
-
-use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManager;
-use Oro\Bundle\BatchBundle\ORM\QueryBuilder\CountQueryBuilderOptimizer;
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-
-class CountQueryBuilderOptimizerTest extends WebTestCase
-{
-    /**
-     * @dataProvider getCountQueryBuilderDataProvider
-     * @param QueryBuilder $queryBuilder
-     * @param string $expectedDql
-     */
-    public function testGetCountQueryBuilder(QueryBuilder $queryBuilder, $expectedDql)
-    {
-        $optimizer = new CountQueryBuilderOptimizer();
-        $countQb = $optimizer->getCountQueryBuilder($queryBuilder);
-        $this->assertInstanceOf('Doctrine\ORM\QueryBuilder', $countQb);
-        // Check for expected DQL
-        $this->assertEquals($expectedDql, $countQb->getQuery()->getDQL());
-        // Check that Optimized DQL can be converted to SQL
-        $this->assertNotEmpty($countQb->getQuery()->getSQL());
-    }
-
-    /**
-     * @return array
-     */
-    public function getCountQueryBuilderDataProvider()
-    {
-        self::initClient();
-        $em = self::getContainer()->get('doctrine.orm.entity_manager');
-
-        return [
-            'simple' => [
-                'queryBuilder' => self::createQueryBuilder($em)
-                    ->from('Oro\Bundle\UserBundle\Entity\User', 'u')
-                    ->select(['u.id', 'u.username']),
-                'expectedDQL' => 'SELECT u.id FROM Oro\Bundle\UserBundle\Entity\User u'
-            ],
-            'group_test' => [
-                'queryBuilder' => self::createQueryBuilder($em)
-                    ->from('Oro\Bundle\UserBundle\Entity\User', 'u')
-                    ->select(['u.id', 'u.username as uName'])
-                    ->groupBy('uName'),
-                'expectedDQL' => 'SELECT u.id, u.username as uName FROM Oro\Bundle\UserBundle\Entity\User u GROUP BY uName'
-            ]
-        );
-    }
-
-    /**
-     * @param EntityManager $entityManager
-     * @return QueryBuilder
-     */
-    public static function createQueryBuilder(EntityManager $entityManager)
-    {
-        return new QueryBuilder($entityManager);
-    }
-}
-```
-
-<!-- Frontend -->
+      ## Writing Functional Tests
+
+      To create a functional test case:
+
+      1. Extend the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase` class
+      2. Prepare the test client (an instance of the `Oro\Bundle\TestFrameworkBundle\Test\Client` class)
+      3. Prepare fixtures (optional)
+      4. Prepare container (optional)
+      5. Call test functionality
+      6. Verify the result
+
+      ### Functional Tests for Controllers
+
+      #### The Control Flow
+
+      A functional test for a controller consists of a couple of steps:
+
+      1. Make a request
+      2. Test the response
+      3. Click on a link or submit a form
+      4. Test the response
+      5. Rinse and repeat
+
+      ## Prepare Client Examples
+
+      Simple initialization works for testing commands and services when authentication is not required.
+
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               $this->initClient(); // initialization occurres only once per test class
+               // now varialbe $this->client is available
+           }
+           // ...
+       }
+      ```
+
+      Initialization with custom AppKernel options:
+
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               // first array is Kernel options
+               $this->initClient(['debug' => false]);
+           }
+           // ...
+       }
+      ```
+
+      Initialization with authentication:
+
+      ```php
+       namespace Oro\Bundle\FooBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               // second array is service options
+               // this example will create client with server options ['PHP_AUTH_USER' => 'admin@example.com', 'PHP_AUTH_PW' => 'admin']
+               // make sure you loaded fixture with test user
+               // bin/console doctrine:fixture:load --no-debug --append --no-interaction --env=test --fixtures src/Oro/src/Oro/Bundle/TestFrameworkBundle/Fixtures
+               $this->initClient([], $this->generateBasicAuthHeader());
+
+               // init client with custom username and password
+               $this->initClient([], $this->generateBasicAuthHeader('custom_username', 'custom_password'));
+           }
+           // ...
+       }
+      ```
+
+      ## Types of Functional Tests
+
+      ### Testing Controllers
+
+      Have a look at an example of a controller test from an Oro application:
+
+      ```php
+       namespace Oro\Bundle\TaskBundle\Tests\Functional\Controller;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       /**
+        * @outputBuffering enabled
+        */
+       class TaskControllersTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               $this->initClient([], $this->generateBasicAuthHeader());
+           }
+
+           public function testCreate()
+           {
+               $crawler = $this->client->request('GET', $this->getUrl('orocrm_task_create'));
+
+               $form = $crawler->selectButton('Save and Close')->form();
+               $form['orocrm_task[subject]'] = 'New task';
+               $form['orocrm_task[description]'] = 'New description';
+               $form['orocrm_task[dueDate]'] = '2014-03-04T20:00:00+0000';
+               $form['orocrm_task[owner]'] = '1';
+               $form['orocrm_task[reporter]'] = '1';
+
+               $this->client->followRedirects(true);
+               $crawler = $this->client->submit($form);
+               $result = $this->client->getResponse();
+               $this->assertHtmlResponseStatusCodeEquals($result, 200);
+               $this->assertContains('Task saved', $crawler->html());
+           }
+
+           /**
+            * @depends testCreate
+            */
+           public function testUpdate()
+           {
+               $response = $this->client->requestGrid(
+                   'tasks-grid',
+                   ['tasks-grid[_filter][reporterName][value]' => 'John Doe']
+               );
+
+               $result = $this->getJsonResponseContent($response, 200);
+               $result = reset($result['data']);
+
+               $crawler = $this->client->request(
+                   'GET',
+                   $this->getUrl('orocrm_task_update', ['id' => $result['id']])
+               );
+
+               $form = $crawler->selectButton('Save and Close')->form();
+               $form['orocrm_task[subject]'] = 'Task updated';
+               $form['orocrm_task[description]'] = 'Description updated';
+
+               $this->client->followRedirects(true);
+               $crawler = $this->client->submit($form);
+               $result = $this->client->getResponse();
+
+               $this->assertHtmlResponseStatusCodeEquals($result, 200);
+               $this->assertContains('Task saved', $crawler->html());
+           }
+
+           /**
+            * @depends testUpdate
+            */
+           public function testView()
+           {
+               $response = $this->client->requestGrid(
+                   'tasks-grid',
+                   ['tasks-grid[_filter][reporterName][value]' => 'John Doe']
+               );
+
+               $result = $this->getJsonResponseContent($response, 200);
+               $result = reset($result['data']);
+
+               $this->client->request(
+                   'GET',
+                   $this->getUrl('orocrm_task_view', ['id' => $result['id']])
+               );
+               $result = $this->client->getResponse();
+
+               $this->assertHtmlResponseStatusCodeEquals($result, 200);
+               $this->assertContains('Task updated - Tasks - Activities', $result->getContent());
+           }
+
+           /**
+            * @depends testUpdate
+            */
+           public function testIndex()
+           {
+               $this->client->request('GET', $this->getUrl('orocrm_task_index'));
+               $result = $this->client->getResponse();
+               $this->assertHtmlResponseStatusCodeEquals($result, 200);
+               $this->assertContains('Task updated', $result->getContent());
+           }
+       }
+      ```
+
+      #### Testing ACLs in a Controller
+
+      In this example, a user without sufficient permissions is trying to access a controller action. The `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::assertHtmlResponseStatusCodeEquals` method is used to ensure that access to the requested resource is denied for the user:
+
+      ```php
+       namespace Oro\Bundle\UserBundle\Tests\Functional\Controller;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+       use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadUserData;
+
+       /**
+        * @outputBuffering enabled
+        */
+       class UsersTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               $this->initClient();
+               $this->loadFixtures([LoadUserData::class]);
+           }
+
+           public function testUsersIndex()
+           {
+               $this->client->request(
+                   'GET',
+                   $this->getUrl('oro_user_index'),
+                   [],
+                   [],
+                   $this->generateBasicAuthHeader(LoadUserData::USER_NAME, LoadUserData::USER_PASSWORD)
+               );
+               $result = $this->client->getResponse();
+               $this->assertHtmlResponseStatusCodeEquals($result, 403);
+           }
+
+           public function testGetUsersAPI()
+           {
+               $this->client->request(
+                   'GET',
+                   $this->getUrl('oro_api_get_users'),
+                   ['limit' => 100],
+                   [],
+                   $this->generateApiAuthHeader(LoadUserData::USER_NAME)
+               );
+               $result = $this->client->getResponse();
+               $this->assertJsonResponseStatusCodeEquals($result, 403);
+           }
+       }
+      ```
+
+      Here is an example of a fixture that adds a user without permissions:
+
+      ```php
+       namespace Oro\Bundle\UserBundle\Tests\Functional\DataFixtures;
+
+       use Doctrine\Common\DataFixtures\AbstractFixture;
+       use Doctrine\Persistence\ObjectManager;
+       use Oro\Bundle\UserBundle\Entity\Role;
+       use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+       use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+
+       class LoadUserData extends AbstractFixture implements ContainerAwareInterface
+       {
+           use ContainerAwareTrait;
+
+           public const USER_NAME = 'user_wo_permissions';
+           public const USER_API_KEY = 'user_api_key';
+           public const USER_PASSWORD = 'user_password';
+
+           #[\Override]
+           public function load(ObjectManager $manager): void
+           {
+               /** @var \Oro\Bundle\UserBundle\Entity\UserManager $userManager */
+               $userManager = $this->container->get('oro_user.manager');
+
+               // Find role for user to able to authenticate in test.
+               // You can use any available role that you want dependently on test logic.
+               $role = $manager->getRepository(Role::class)
+                   ->findOneBy(['role' => 'IS_AUTHENTICATED_ANONYMOUSLY']);
+
+               // Creating new user
+               $user = $userManager->createUser();
+
+               // Creating user
+               $user
+                   ->setUsername(self::USER_NAME)
+                   ->setPlainPassword(self::USER_PASSWORD) // This value is referenced in testUsersIndex method
+                   ->setFirstName('Simple')
+                   ->setLastName('User')
+                   ->addRole($role)
+                   ->setEmail('test@example.com')
+                   ->setSalt('');
+
+               // Handle password encoding
+               $userManager->updatePassword($user);
+
+               $manager->persist($user);
+               $manager->flush();
+           }
+       }
+      ```
+
+      ### Testing Commands
+
+      When OroPlatform is installed, you can test commands by using the `runCommand()` method from the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase` class. This method executes a command with given parameters and returns its output as a string. For example, see what the test for the `Oro\Bundle\SearchBundle\EventListener\UpdateSchemaDoctrineListener` class from the SearchBundle looks like:
+
+      ```php
+       namespace Oro\Bundle\SearchBundle\Tests\Functional\EventListener;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+       class UpdateSchemaListenerTest extends WebTestCase
+       {
+           protected function setUp()
+           {
+               $this->initClient();
+           }
+
+           /**
+            * @dataProvider commandOptionsProvider
+            */
+           public function testCommand($commandName, array $params, $expectedContent)
+           {
+               $result = $this->runCommand($commandName, $params);
+               $this->assertContains($expectedContent, $result);
+           }
+
+           public function commandOptionsProvider()
+           {
+               return [
+                   'otherCommand' => [
+                       'commandName'     => 'doctrine:mapping:info',
+                       'params'          => [],
+                       'expectedContent' => 'OK'
+                   ],
+                   'commandWithoutOption' => [
+                       'commandName'     => 'doctrine:schema:update',
+                       'params'          => [],
+                       'expectedContent' => 'Please run the operation by passing one - or both - of the following options:'
+                   ],
+                   'commandWithAnotherOption' => [
+                       'commandName'     => 'doctrine:schema:update',
+                       'params'          => ['--dump-sql' => true],
+                       'expectedContent' => 'ALTER TABLE'
+                   ],
+                   'commandWithForceOption' => [
+                       'commandName'     => 'doctrine:schema:update',
+                       'params'          => ['--force' => true],
+                       'expectedContent' => 'Schema update and create index completed'
+                   ]
+               ];
+           }
+       }
+      ```
+
+      #### SEE ALSO
+      Read <a href="https://symfony.com/doc/master/components/console/introduction.html#testing-commands" target="_blank">Testing Commands</a> in the official documentation for more information on how to test commands in a Symfony application.
+
+      ### Testing Services or Repositories
+
+      To test services or repositories, you can access the service container through the `Oro\Bundle\TestFrameworkBundle\Test\WebTestCase::getContainer` method:
+
+      ```php
+       namespace Oro\Bundle\FooBarBundle\Tests\Functional;
+
+       use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+       use Oro\Bundle\UserBundle\Tests\Functional\DataFixtures\LoadFooBarData;
+
+       class FooBarTest extends WebTestCase
+       {
+           protected $repositoryOrService;
+
+           protected function setUp()
+           {
+               $this->initClient();
+               $this->loadFixtures([LoadFooBarData::class]);
+               $this->repositoryOrService = $this->getContainer()->get('repository_or_service_id');
+           }
+
+           public function testMethod($commandName, array $params, $expectedContent)
+           {
+               $expected = 'test';
+               $this->assertEquals($expected, $this->repositoryOrService->callTestMethod());
+           }
+       }
+      ```
+
+      ## Functional Test Example
+
+      This is an example of how you can write an integration test for a class that uses Doctrine ORM without mocking its classes and using real Doctrine services:
+
+      ```php
+      namespace Oro\Bundle\BatchBundle\Tests\Functional\ORM\QueryBuilder;
+
+      use Doctrine\ORM\Query\Expr\Join;
+      use Doctrine\ORM\QueryBuilder;
+      use Doctrine\ORM\EntityManager;
+      use Oro\Bundle\BatchBundle\ORM\QueryBuilder\CountQueryBuilderOptimizer;
+      use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+
+      class CountQueryBuilderOptimizerTest extends WebTestCase
+      {
+          /**
+           * @dataProvider getCountQueryBuilderDataProvider
+           * @param QueryBuilder $queryBuilder
+           * @param string $expectedDql
+           */
+          public function testGetCountQueryBuilder(QueryBuilder $queryBuilder, $expectedDql)
+          {
+              $optimizer = new CountQueryBuilderOptimizer();
+              $countQb = $optimizer->getCountQueryBuilder($queryBuilder);
+              $this->assertInstanceOf('Doctrine\ORM\QueryBuilder', $countQb);
+              // Check for expected DQL
+              $this->assertEquals($expectedDql, $countQb->getQuery()->getDQL());
+              // Check that Optimized DQL can be converted to SQL
+              $this->assertNotEmpty($countQb->getQuery()->getSQL());
+          }
+
+          /**
+           * @return array
+           */
+          public function getCountQueryBuilderDataProvider()
+          {
+              self::initClient();
+              $em = self::getContainer()->get('doctrine.orm.entity_manager');
+
+              return [
+                  'simple' => [
+                      'queryBuilder' => self::createQueryBuilder($em)
+                          ->from('Oro\Bundle\UserBundle\Entity\User', 'u')
+                          ->select(['u.id', 'u.username']),
+                      'expectedDQL' => 'SELECT u.id FROM Oro\Bundle\UserBundle\Entity\User u'
+                  ],
+                  'group_test' => [
+                      'queryBuilder' => self::createQueryBuilder($em)
+                          ->from('Oro\Bundle\UserBundle\Entity\User', 'u')
+                          ->select(['u.id', 'u.username as uName'])
+                          ->groupBy('uName'),
+                      'expectedDQL' => 'SELECT u.id, u.username as uName FROM Oro\Bundle\UserBundle\Entity\User u GROUP BY uName'
+                  ]
+              );
+          }
+
+          /**
+           * @param EntityManager $entityManager
+           * @return QueryBuilder
+           */
+          public static function createQueryBuilder(EntityManager $entityManager)
+          {
+              return new QueryBuilder($entityManager);
+          }
+      }
+      ```
+
+      <!-- Frontend -->

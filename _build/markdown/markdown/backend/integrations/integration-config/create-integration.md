@@ -17,6 +17,8 @@ The first step is to define a new channel. A channel is the way to make your int
 the integration section of the admin interface. A channel is a class that has to implement the
 `Oro\Bundle\IntegrationBundle\Provider\ChannelInterface`:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Integration/TaskChannel.php
 ```php
 namespace Acme\Bundle\DemoBundle\Integration;
 

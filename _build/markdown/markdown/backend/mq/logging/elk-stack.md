@@ -20,6 +20,8 @@ See the documentation on how to install ELK Stack on <a href="https://www.elasti
 Logstash supports a variety of inputs that pull in all events from a multitude of common sources simultaneously. For more detailed documentation, check the <a href="https://www.elastic.co/products/logstash" target="_blank">Logstash product page</a>.
 Configure <a href="https://github.com/Seldaek/monolog/blob/master/src/Monolog/Formatter/LogstashFormatter.php" target="_blank">Monolog Logstash formatter</a> in your `config_%env%.yml` file.
 
+#### NOTE
+path/to/config_prod.yml
 ```yaml
  monolog:
     handlers:
@@ -119,4 +121,8 @@ For more information, see the following external resources:
 * <a href="https://www.elastic.co/products/elasticsearch" target="_blank">Elastic Elasticsearch</a>
 * <a href="https://github.com/Seldaek/monolog/blob/master/src/Monolog/Formatter/LogstashFormatter.php" target="_blank">Monolog LogstashFormatter</a>
 
+#### NOTE
+Business Tip
+
+Manufacturing companies increasingly embrace digital trends. Here’s how <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">digital transformation in manufacturing industry</a> is possible with eCommerce.
 <!-- Frontend -->

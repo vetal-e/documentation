@@ -7,6 +7,19 @@
 | Root Node  | `entity_config`                                                                                                                                            |
 | Sections   | * [entity]()<br/>  * [form]()<br/>  * [items](#reference-entity-config-entity-items)<br/>* [field]()<br/>  * [items](#reference-entity-config-field-items) |
 
+#### NOTE
+Both the entity and field options must not be used directly under the
+entity_config key, but a scope key must be used as an intermediate mapping key:
+
+src/Acme/Bundle/DemoBundle/Resources/config/oro/entity_config.yml
+
+entity_config:
+    demo_scope:
+        # ...
+
+This scope is later referred to with the defaultValues option of the #[Config] and
+#[ConfigField] attributes.
+
 ## Example of ‘Entity’ Scope Configuration
 
 ```yaml

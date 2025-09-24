@@ -6,6 +6,8 @@ Before your application contains an interface to create new tasks, you need to l
 programmatically. In OroPlatform, this can be done by creating [fixture classes](../entities/fixtures.md#backend-entities-fixtures) that are placed in the
 `Migrations/Data/ORM` subdirectory of your bundle and that implement the `FixtureInterface`:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Data/ORM/LoadQuestions.php
 ```php
 namespace Acme\Bundle\DemoBundle\Migrations\Data\ORM;
 
@@ -149,4 +151,8 @@ class LoadConfigValue extends AbstractFixture
 }
 ```
 
+#### NOTE
+Business Tip
+
+If you’ve ever been wondering about the differences between B2C and <a href="https://oroinc.com/b2b-ecommerce/what-is-b2b-ecommerce/" target="_blank">B2B e-commerce</a>, our guide will answer all of your possible questions.
 <!-- Frontend -->

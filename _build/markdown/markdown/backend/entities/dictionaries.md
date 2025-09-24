@@ -26,6 +26,8 @@ If you have a group of entities that can be classified as a dictionary but are n
 1. Create a dictionary value list provider implementing the <a href="https://github.com/oroinc/platform/blob/master/src/Oro/Bundle/EntityBundle/Provider/DictionaryValueListProviderInterface.php" target="_blank">DictionaryValueListProviderInterface</a> interface.
 2. Register your provider service in the DI container by the following tag: `oro_entity.dictionary_value_list_provider`:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/services.yml
 ```yaml
 # Resources/config/services.yml
 services:

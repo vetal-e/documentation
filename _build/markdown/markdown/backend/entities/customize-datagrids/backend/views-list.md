@@ -7,6 +7,8 @@ Provides the ability to add a list of grid views. Adds filters and sorters from 
 To write your own view list, create a class that extends the `Oro\Bundle\DataGridBundle\Extension\GridViews\AbstractViewsList`
 class. Here is an example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Datagrid/FavoriteViewList.php
 ```php
 <?php
 

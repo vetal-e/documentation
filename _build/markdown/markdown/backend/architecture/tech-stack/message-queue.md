@@ -38,6 +38,9 @@ You can skip it if you are only going to use the component. The component is spl
 
 ![The Oro MessageQueue component structure](img/backend/architecture/component_structure_diagram.png)
 
+#### NOTE
+Component structure
+
 ### Flow
 
 It takes the message and multiplies it for every queue where the message should be sent. Next, it forwards each message to the message queue

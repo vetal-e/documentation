@@ -11,6 +11,8 @@ The `acl_categories.yml` file is used to configure ACL categories for the role m
 
 An example of the configuration file:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/acl_categories.yml
 ```yaml
 acl_categories:
     some_category:

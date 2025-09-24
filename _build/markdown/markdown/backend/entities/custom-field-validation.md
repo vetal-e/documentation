@@ -6,6 +6,8 @@ Using the oro_entity.manager.entity_field_validator service, you can add custom 
 
 Example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/services.yml
 ```yaml
     # Validator
     acme_demo.validator.acme_custom_grid_field_validator:

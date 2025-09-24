@@ -18,6 +18,8 @@ You can also configure reports via the web UI.
 Building a new report is as easy as defining a data grid. A data grid is a YAML configuration living in a
 file called `datagrids.yml` in your bundle’s `Resources/config/oro` directory for the backend datagrid and in `Resources/views/layouts/<theme>/config/datagrids.yml` for the frontend datagrid. Take a look at the following example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/datagrids.yml
 ```yaml
 datagrids:
     acme-demo-question-report:

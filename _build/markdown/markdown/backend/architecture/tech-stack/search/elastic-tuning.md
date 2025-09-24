@@ -38,6 +38,8 @@ php bin/console oro:website-search:reindex --env=prod --scheduled
 
 The back-office (standard) index uses the **standard fulltext search** algorithm by default. There is a possibility to enable **language-optimized search** using the following configuration:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/app.yml
 ```php
 oro_search:
     engine_parameters:

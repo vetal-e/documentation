@@ -1,3 +1,4 @@
+#### NOTE
 <a id="op-structure-mq-index"></a>
 
 <a id="op-structure-mq"></a>
@@ -101,6 +102,8 @@ guest with the default password of guest, granted full access to the /
 virtual host) from the `ORO_MQ_DSN` environment variable. The format is as follow `amqp://guest:guest@localhost:5672`.
 The default value for `ORO_MQ_DSN` environment variable is set in the config/config.yml file:
 
+#### NOTE
+config/config.yml
 ```yaml
  oro_message_queue:
      client: ~
@@ -108,6 +111,11 @@ The default value for `ORO_MQ_DSN` environment variable is set in the config/con
      message_queue_transport_dsn: '%env(ORO_MQ_DSN)%'
      env(ORO_MQ_DSN): 'dbal:'
 ```
+
+#### NOTE
+Business Tip
+
+Looking for the <a href="https://oroinc.com/b2b-ecommerce/b2b-ecommerce-comparison" target="_blank">open-source B2B eCommerce platform</a>? Our platform comparison page can help you with the decision-making.
 
 **See Also**
 

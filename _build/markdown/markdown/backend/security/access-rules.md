@@ -78,6 +78,8 @@ If the value of the expression on the left or right is not the expression object
 
 To add a new access rule, create a new class that implements <a href="https://github.com/oroinc/platform/tree/master/src/Oro/Bundle/SecurityBundle/AccessRule/AccessRuleInterface.php" target="_blank">AccessRuleInterface</a>, for example:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/AccessRule/FavoriteAccessRule.php
 ```php
 <?php
 

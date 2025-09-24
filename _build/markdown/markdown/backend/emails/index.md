@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-emails"></a>
 
 # Emails
@@ -10,6 +11,8 @@ When creating emails, you can reuse frequently sent text. For this, they can cre
 
 To provide mail templates, create Twig templates for the desired format (namely HTML or plaintext) in which you can use pre-defined placeholders to define template metadata. Then you create a data fixture that implements the `AbstractEmailFixture` class. This class provides a `getEmailsDir()` method, which should return the path of the directory that contains your templates:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Data/ORM/EmailTemplatesFixture.php
 ```php
  namespace Acme\Bundle\DemoBundle\Migrations\Data\ORM;
 
@@ -488,4 +491,8 @@ php bin/console doctrine:schema:update --force
 php bin/console cache:warmup
 ```
 
+#### NOTE
+Business Tip
+
+Do you want to implement smart manufacturing in your company? Learn how <a href="https://oroinc.com/b2b-ecommerce/blog/digital-transformation-in-manufacturing/" target="_blank">manufacturing digital transformation</a> can help your company get ahead.
 <!-- Frontend -->

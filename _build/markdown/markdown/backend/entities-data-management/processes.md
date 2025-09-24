@@ -68,6 +68,8 @@ You should either use an appropriate condition to avoid recursion or the “excl
 All processes are described in the configuration. The example below illustrates a simple process configuration that performs
 an action with the Contact entity.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/processes.yml
 ```yaml
 processes:
     definitions:                                                 # list of definitions

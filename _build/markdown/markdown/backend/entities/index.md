@@ -1,3 +1,4 @@
+#### NOTE
 <a id="dev-entities"></a>
 
 # Entities
@@ -43,11 +44,12 @@ In the sections below, you can learn the key things you can come across when wor
 * [Transaction watchers for Default DBAL Connection](transaction-watchers.md)
 * [Attributes Configuration](attributes.md)
 * [Datagrids](data-grids/index.md)
-* [Customize Datagrids](customize-datagrids/index.md)
-* [Protect Entities Using ACLs](acls.md)
-* [Entity Attachments](attachments.md)
-* [Customize CRUD Pages](customize-crud.md)
-* [Fixtures](fixtures.md)
-* [Data Sanitization](sanitize.md)
 
+  #### NOTE
+  * [Customize Datagrids](customize-datagrids/index.md)
+  * [Protect Entities Using ACLs](acls.md)
+  * [Entity Attachments](attachments.md)
+  * [Customize CRUD Pages](customize-crud.md)
+  * [Fixtures](fixtures.md)
+  * [Data Sanitization](sanitize.md)
 <!-- Frontend -->

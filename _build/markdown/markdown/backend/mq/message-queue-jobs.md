@@ -88,6 +88,9 @@ The benefits are the following:
 
 ![Running Parallel Jobs](img/backend/architecture/running_parallel_jobs.png)
 
+#### NOTE
+Running Parallel Jobs - a Root Job with async Sub-jobs
+
 **Example of createDelayed and runDelayed Usage**
 
 The processor subscribes to `DoBigJobTopic` and runs a unique big

@@ -24,6 +24,11 @@ where {lang_code} is a two-letter language code, e.g., workflows.en.yml.
 
 You need to create such file for each language that you will use.
 
+#### NOTE
+To simplify creation of the translation file, you can first create a workflow configuration, and then dump all related translation keys to the workflows.{lang_code}.yml.   For example, if you create workflow ‘my_workflow’:
+
+bin/console oro:workflow:translations:dump my_workflow –locale=en > src/Acme/Bundle/DemoBundle/Resources/translations/workflows.en.yml
+
 For more information, see [Workflow Translation Wizard](translations-wizard.md#backend-workflows-translation-wizard).
 
 ## Add a Workflow
@@ -34,6 +39,8 @@ The value of the `workflows` key is the array of workflows.
 
 To define a new workflow, add its name to the array.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/workflows.yml
 ```yaml
 workflows:
     phone_call:   # This is the workflow name.

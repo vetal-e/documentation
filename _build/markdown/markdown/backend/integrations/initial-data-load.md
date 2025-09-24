@@ -34,6 +34,8 @@ Cons:
 
 Fixtures are a more structured way to define initial data for your application. You typically define data in a structured format, such as JSON or YAML, and then use a custom command or data migration to load these fixtures into the database.
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Migrations/Data/ORM/LoadCustomersData.php
 ```php
 <?php
 

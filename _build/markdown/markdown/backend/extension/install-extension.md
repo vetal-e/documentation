@@ -8,6 +8,10 @@
 
 # Install Extension from the Oro Extensions Store
 
+#### NOTE
+Before installing an extension it is recommended to back up the database and the application
+source code. There is no simple way to uninstall an extension.
+
 Installing an extension from the Oro Extensions Store is the least resource-consuming way to expand the existing functionality of the Oro application.
 
 Oro application’s extensions store is a catalog service for sharing packages that extend a particular Oro application. On the Extensions Store, Oro and third-party vendors may publish free or chargeable custom packages to distribute commonly-used extension solutions to the Oro community.

@@ -58,6 +58,8 @@ The file-based approach is easier to maintain and is preferable in most cases. T
 
 ### Sanitizing Rules Defined in Files
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/sanitize.yml
 ```yaml
 oro_sanitize:
     raw_sqls:

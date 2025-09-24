@@ -112,6 +112,9 @@ map:
         'jquery': 'jquery'
 ```
 
+#### NOTE
+\* is a special key that matches all module contexts.
+
 ### `shim`
 
 **type**: `map`

@@ -6,6 +6,9 @@
 
 This guide covers the complete process of upgrading your codebase to OroCommerce v7.0, including dependency updates and code migration.
 
+#### NOTE
+If you are looking for instructions on upgrading the entire OroCommerce application rather than just the source code, please refer to our guide on Upgrading the Application to the Next Version.
+
 ## Upgrade Sequence for Earlier Versions
 
 For users operating on versions of OroCommerce earlier than 5.1,

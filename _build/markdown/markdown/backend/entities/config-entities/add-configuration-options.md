@@ -6,6 +6,8 @@ To add new configuration options:
 
 1. Define the options that you want to be configurable. You can create new options per bundle, which means a bundle can extend the available options. To add new options, create the `entity_config.yml` file in your bundle as follows:
 
+#### NOTE
+src/Acme/Bundle/DemoBundle/Resources/config/oro/entity_config.yml
 ```yaml
 entity_config:
   acme_demo:
