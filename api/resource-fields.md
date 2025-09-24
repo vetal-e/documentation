@@ -1,0 +1,37 @@
+<a id="web-services-api-resource-fields"></a>
+
+# Resource Fields
+
+<a id="web-services-api-resource-fields-common"></a>
+
+## Common Resource Fields
+
+| Name         | Type                                                  | Description                                                                                                                                                                                            |
+|--------------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id           | integer                                               | The unique identifier of a resource. In most cases, it is represented by an integer value, but<br/>depending on the resource data model, it can be represented by a string or contain multiple columns |
+| createdAt    | datetime                                              | The date and time of resource record creation.                                                                                                                                                         |
+| updatedAt    | datetime                                              | The date and time of the last update of the resource record.                                                                                                                                           |
+| owner        | user<br/>or<br/>business unit<br/>or<br/>organization | Defines the range of users that are responsible for a record and can manage it.<br/>Ownership also determines access permissions.                                                                      |
+| organization | organization                                          | An organization record represents a real enterprise, business, firm, company or another<br/>organization to which the users belong. It is available for Enterprise Edition only.                       |
+
+<a id="web-services-api-resource-fields-communication-activities"></a>
+
+## Typical Communication Activities Fields
+
+The term *communication activity* describes an activity that involves communications and can have a direction, that is, be incoming or outgoing.
+
+For example, *Call*, *Email* are communication activities. When a client calls or sends an email to their manager, it is an incoming communication activity. When a manager calls a client or sends an email, it is an outgoing communication activity.
+
+The data based on communication activities may be used to build useful forecast reports.
+
+The table below describes fields available for the resources that support such communication activities
+as *Call*, *Email*, etc.
+
+| Name                 | Type     | Description                                                                                                                                                 |
+|----------------------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| lastContactedDate    | datetime | The date and time of the last communication activity for the resource record.                                                                               |
+| lastContactedDateIn  | datetime | The date and time of the last incoming communication activity for the resource record.                                                                      |
+| lastContactedDateOut | datetime | The date and time of the last outgoing communication activity for the resource record.                                                                      |
+| timesContacted       | integer  | Date and time of the last contact attempt (email sent, call logged,<br/>or other contact activity). Marketing emails are not counted.                       |
+| timesContactedIn     | integer  | Date and time of the last incoming contact attempt (email received,<br/>incoming call logged, or other contact activity). Marketing emails are not counted. |
+| timesContactedOut    | integer  | Date and time of the last outgoing contact attempt (email sent, outgoing call logged,<br/>or other contact activity). Marketing emails are not counted.     |
