@@ -46,6 +46,7 @@ extensions = [
     # Disable generating of sitemapindex.xml
 #    'ext.sitemap-index',
     'ext.redirects',
+    'sphinx_markdown_builder',
 ]
 
 spelling_lang='en_US'
@@ -95,8 +96,8 @@ release = 'master'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# exclude_patterns = ['_build', 'completeReference/overview', 'sphinx', '_themes', 'backend', 'bundles', 'cloud', 'community', 'developer', 'frontend', 'user']
-exclude_patterns = ['_build', 'completeReference/overview', 'sphinx', '_themes']
+exclude_patterns = ['_build', 'completeReference/overview', 'sphinx', '_themes', 'bundles', 'cloud', 'community', 'frontend', 'user']
+# exclude_patterns = ['_build', 'completeReference/overview', 'sphinx', '_themes']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
